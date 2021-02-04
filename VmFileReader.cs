@@ -7,6 +7,7 @@ namespace VMToHackASM
     public class VmFileReader
     {
         private readonly IReadOnlyList<string> commandList;
+        private readonly IReadOnlyList<string> variableList;
         private readonly string path;
 
         public VmFileReader(string path)

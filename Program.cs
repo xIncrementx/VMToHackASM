@@ -19,7 +19,12 @@ namespace VMToHackASM
             {
                 var file = fileReader.GetAll();
 
-                PrintAll(file);
+                foreach (var item in file)
+                {
+                    VmTranslator.VmToAsm(item);
+                }
+
+                //PrintAll(file);
             }
             catch (Exception e)
             {
