@@ -4,6 +4,16 @@ namespace VMToHackASM
 {
     public class VmTranslator
     {
+        private readonly Stack<short> stack = new Stack<short>(1791);
+        private readonly List<short> heap = new List<short>(14576); // Mem after SCREEN, KBD, STACK and 0-15 allocation
+
+        private readonly short spPtr; 
+        private readonly short lclPtr; 
+        private readonly short argPtr; 
+        private readonly short thisPtr; 
+        private readonly short thatPtr;
+        private readonly short[] tempPtrs;
+        
         public static string Command { get; set; }
 
         public static string Segment { get; set; }
@@ -12,14 +22,32 @@ namespace VMToHackASM
 
         public static byte LineIndex { get; set; }
 
-        public VmTranslator()
+        /// <summary>
+        /// Parameter order:<br/>
+        /// SP, LCL, ARG, THIS, THAT 
+        /// </summary>
+        /// <param name="stackPtr"></param>
+        /// <param name="lclPtr"></param>
+        /// <param name="argPtr"></param>
+        /// <param name="thisPtr"></param>
+        /// <param name="thatPtr"></param>
+        /// <param name="tempPtrs"></param>
+        public VmTranslator(short stackPtr, short lclPtr, short argPtr, short thisPtr, short thatPtr, params short[] tempPtrs)
         {
-            
+            this.spPtr = stackPtr;
+            this.lclPtr = lclPtr;
+            this.argPtr = argPtr;
+            this.thisPtr = thisPtr;
+            this.thatPtr = thatPtr;
+            this.tempPtrs = tempPtrs;
         }
 
         // Command || Segment || Value
-        public static void VmToAsm (string commandLine)
+        public void VmToAsm (string commandLine)
         {
+            
+            
+            
             CombineFullLine(commandLine);
         }
 

@@ -14,6 +14,7 @@ namespace VMToHackASM
             const string stackTestFile = "StackTest.vm";
 
             var fileReader = new VmFileReader(StackTestPath + stackTestFile);
+            var translator = new VmTranslator(2,3,21,6,1);
 
             try
             {
