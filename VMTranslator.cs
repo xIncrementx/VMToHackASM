@@ -14,6 +14,7 @@ namespace VMToHackASM
         private short thisPtr;
         private short thatPtr;
         private short[] tempPtrs;
+        const short staticStart = 16;
 
         public static string Command { get; set; }
 
@@ -44,20 +45,21 @@ namespace VMToHackASM
             this.tempPtrs = tempPtrs;
         }
 
-        // Command || Segment || Value
         public IEnumerable<string> VmToAsm(string commandLine)
         {
             var commands = commandLine.Split(' ');
 
             if (commands.Length > 1)
             {
-                switch (commandLine)
+                string command = commands[0];
+                string segment = commands[1];
+                short value = short.Parse(commands[2]);
+
+                switch (command)
                 {
                     case "push":
-
-                        break;
+                        return Push(segment, value);
                     case "pop":
-
                         break;
                 }
             }
@@ -95,10 +97,7 @@ namespace VMToHackASM
                 }
             }
 
-            CombineFullLine(commandLine);
-            var sList = Push("constant", 1);
-
-            return sList;
+            return null;
         }
 
         /// <summary>
@@ -145,16 +144,6 @@ namespace VMToHackASM
         /// </summary>
         private List<string> Push(string segment, short value)
         {
-            // constant, this, that, 
-            //push constant 1
-            //@1
-            //D = A // D = 1
-            //@SP
-            //A = M // push D onto stack
-            //M = D
-            //@SP
-            //M = M + 1 // “preincrement” SP
-
             var listOfCommands = new List<string>();
 
             switch (segment)
@@ -166,13 +155,32 @@ namespace VMToHackASM
                     listOfCommands.Add("A=M");
                     listOfCommands.Add("M=D");
                     listOfCommands.Add("@SP");
-                    listOfCommands.Add("M=M+1");
                     break;
+                case "local":
+                    listOfCommands.Add("@LCL");
+                    listOfCommands.Add("D=M");
+                    listOfCommands.Add("@" + value);
+                    listOfCommands.Add("D=D+A");
+                    listOfCommands.Add("@SP");
+                    listOfCommands.Add("A=M");
+                    listOfCommands.Add("M=D");
+                    break;
+                case "static":
+                    listOfCommands.Add("@" + staticStart + value);
+                    break;
+                case "arg":
+                    break;
+                case "this":
+                    break;
+                case "that":
+                    break;
+                //case "temp":
+                    //break;
                 default:
                     break;
             }
 
-            this.spPtr++;
+            listOfCommands.Add("M=M+1");
 
             return listOfCommands;
         }

@@ -14,7 +14,7 @@ namespace VMToHackASM
             const string simpleAddFile = "SimpleAdd.vm";
             const string stackTestFile = "StackTest.vm";
 
-            var fileReader = new VmFileReader(StackTestPath + stackTestFile);
+            var fileReader = new VmFileReader(SimpleAddPath + simpleAddFile);
             var translator = new VmTranslator(256, 1, 2, 3, 4, 5);
 
             try
