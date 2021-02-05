@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using VMToHackASM.IO;
 using VMToHackASM.Parsers;
@@ -9,37 +8,29 @@ namespace VMToHackASM
     class Program
     {
         private const string SimpleAddPath = "./../../../Tests/SimpleAdd/";
-        private const string StackTestPath = "./../../../Tests/StackTest/";
+        private const string TestPath = "/Test Files/vmtoasm/StackTest/";
+        private static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
 
         private static void Main(string[] args)
         {
-            
             const string simpleAddFile = "SimpleAdd.vm";
-            const string stackTestFile = "StackTest.vm";
+            string stackTestFile = DesktopPath + TestPath + "StackTest.vm";
 
-            var fileWriter = new StreamWriter(StackTestPath + "StackTestOUT.asm");
-
-            var fileReader = new VmFileReader(StackTestPath + stackTestFile);
-            var translator = new VmToHackAsm(256, 1, 2, 3, 4, 5);
-            var list = new List<string>();
+            var fileReader = new VmFileReader(stackTestFile);
+            var vmTranslator = new VmTranslator(256, 1, 2, 3, 4);
 
             try
             {
-                var file = fileReader.GetAll();
+                var vmOperations = fileReader.GetAll();
+                var asmOperations = vmTranslator.ToHackAsm(vmOperations);
 
-                foreach (string item in file)
+                using var fileWriter = new StreamWriter(DesktopPath + TestPath + "StackTest.asm");
+                foreach (string operation in asmOperations)
                 {
-                   list.AddRange(translator.VmToAsm(item));
+                    fileWriter.WriteLine(operation);
+                    Console.WriteLine(operation);
                 }
-                
-                PrintAll(list);
-                // Write to file
-                for (int i = 0; i < list.Count; i++)
-                {
-                    fileWriter.WriteLine(list[i]);
-                }
-
-                fileWriter.Close();
             }
             catch (Exception e)
             {
@@ -47,23 +38,6 @@ namespace VMToHackASM
             }
 
             Console.WriteLine("End");
-        }
-
-        private static void PrintAll(IEnumerable<string> file)
-        {
-            foreach (string s in file)
-            {
-                Console.WriteLine($"{s}");
-            }
-        }
-        
-        private static void PrintAllWithLine(IEnumerable<string> file)
-        {
-            int line = 0;
-            foreach (string s in file)
-            {
-                Console.WriteLine($"{line++} {s}");
-            }
         }
     }
 }

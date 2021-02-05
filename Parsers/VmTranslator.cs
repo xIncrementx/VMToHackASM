@@ -3,12 +3,11 @@ using VMToHackASM.Data;
 
 namespace VMToHackASM.Parsers
 {
-    public class VmToHackAsm
+    public class VmTranslator
     {
         private const short StaticPtr = 16;
-        
-        private readonly Stack<short> stack = new Stack<short>(1791);
-        private readonly List<short> heap = new List<short>(14335); // Mem after SCREEN, KBD, STACK and 0-15 allocation
+
+        public bool Pushed { get; private set; }
 
         private short spPtr;
         private short lclPtr;
@@ -16,14 +15,6 @@ namespace VMToHackASM.Parsers
         private short thisPtr;
         private short thatPtr;
         private short[] tempPtrs;
-
-        public static string Command { get; set; }
-
-        public static string Segment { get; set; }
-
-        public static string Value { get; set; }
-
-        public static byte LineIndex { get; set; }
 
         /// <summary>
         /// Parameter order:<br/>
@@ -35,7 +26,7 @@ namespace VMToHackASM.Parsers
         /// <param name="thisPtr"></param>
         /// <param name="thatPtr"></param>
         /// <param name="tempPtrs"></param>
-        public VmToHackAsm(short stackPtr, short lclPtr, short argPtr, short thisPtr, short thatPtr,
+        public VmTranslator(short stackPtr, short lclPtr, short argPtr, short thisPtr, short thatPtr,
             params short[] tempPtrs)
         {
             this.spPtr = stackPtr;
@@ -46,76 +37,51 @@ namespace VMToHackASM.Parsers
             this.tempPtrs = tempPtrs;
         }
 
-        public IEnumerable<string> VmToAsm(string line)
+        /// <summary>
+        /// Translates VM to Hack assembly language.
+        /// </summary>
+        /// <param name="vmOperations"></param>
+        /// <returns></returns>
+        public IEnumerable<string> ToHackAsm(IEnumerable<string> vmOperations)
         {
-            var commands = line.Split(' ');
-            var list = new List<string>();
+            var asmOperationManager = new AsmOperationManager();
+            var asmOperations = new List<string>(100);
 
-            if (commands.Length > 1)
+            foreach (string operation in vmOperations)
             {
-                string command = commands[0];
-                string segment = commands[1];
-                short value = short.Parse(commands[2]);
+                var splitOperation = operation.Split(' ');
 
-                switch (command)
+                if (splitOperation.Length > 1)
                 {
-                    case "push":
-                        list.AddRange(Push(segment, value));
-                        break;
-                    case "pop":
-                        break;
+                    string command = splitOperation[0];
+                    string segment = splitOperation[1];
+                    short value = short.Parse(splitOperation[2]);
+
+                    switch (command)
+                    {
+                        case "push":
+                            asmOperations.AddRange(Push(segment, value));
+                            asmOperations.Add("@SP");
+                            asmOperations.Add("M=M+1");
+                            this.Pushed = true;
+                            break;
+                        case "pop":
+                            break;
+                    }
+                }
+                else
+                {
+                    var operations = asmOperationManager.GetOperation(operation);
+                    asmOperations.AddRange(operations);
+                    this.Pushed = false;
                 }
             }
-            else
-            {
-                var command = CommandTable.GetCommand(line);
-                list.AddRange(command);
-            }
-
-            return list;
+            
+            return asmOperations;
         }
 
         /// <summary>
-        /// Check string chars until white space.
-        /// </summary>
-        /// <param name="line"></param>
-        private static byte SetCommand(string line)
-        {
-            Command = "";
-
-            LineIndex = 0;
-
-            return 0;
-        }
-
-        /// <summary>
-        /// Check string chars until white space.
-        /// </summary>
-        /// <param name="line"></param>
-        private static byte SetSegment(string line)
-        {
-            Segment = "";
-
-            LineIndex = 0;
-
-            return 0;
-        }
-
-        /// <summary>
-        /// Check string chars until end of line.
-        /// </summary>
-        /// <param name="line"></param>
-        private static byte SetValue(string line)
-        {
-            Value = "";
-
-            LineIndex = 0;
-
-            return 0;
-        }
-
-        /// <summary>
-        /// Pushes a value from Stackpointer's position, to specified address.
+        /// Pushes a value from the stack pointer's position, to specified address.
         /// </summary>
         private IEnumerable<string> Push(string segment, short value)
         {
@@ -129,7 +95,6 @@ namespace VMToHackASM.Parsers
                     listOfCommands.Add("@SP");
                     listOfCommands.Add("A=M");
                     listOfCommands.Add("M=D");
-                    listOfCommands.Add("@SP");
                     break;
                 case "local":
                     listOfCommands.Add("@LCL");
@@ -161,25 +126,14 @@ namespace VMToHackASM.Parsers
                     break;
             }
 
-            listOfCommands.Add("M=M+1");
-
             return listOfCommands;
         }
 
         /// <summary>
-        /// Decrements Stackpointer's position and pops the value to the segment.
+        /// Decrements The stack pointer's position and pops the value to the segment.
         /// </summary>
-        private static void Pop(string SPpos, string segment, string value)
+        private static void Pop(string SpPos, string segment, string value)
         {
-        }
-
-        private static void CombineFullLine(string line)
-        {
-            SetCommand(line);
-            SetSegment(line);
-            SetValue(line);
-
-            // Use ...
         }
     }
 }

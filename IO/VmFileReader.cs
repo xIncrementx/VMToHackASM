@@ -22,7 +22,6 @@ namespace VMToHackASM.IO
         public IEnumerable<string> GetAll()
         {
             var fileReader = new StreamReader(this.path);
-
             
             for (string line; (line = fileReader.ReadLine()) != null;)
             {
@@ -30,12 +29,11 @@ namespace VMToHackASM.IO
                 bool hasComment = line.Contains("//");
                 if (hasComment) line = RemoveComment(line);
                 if (line.Length == 0) continue;
-                
                 line.TrimEnd();
                 
                 bool invalidCommand = !IsValidCommand(line);
                 if (invalidCommand) throw new Exception("This command is not valid...");
-                
+
                 yield return line;
             }
         }

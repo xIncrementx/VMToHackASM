@@ -21,7 +21,8 @@ D=D-M
 @File.0
 D;JEQ
 @File.1
-D=0;JMP
+D=0
+0;JMP
 (File.0)
 D=-1
 (File.1)
