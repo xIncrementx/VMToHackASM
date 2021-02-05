@@ -14,7 +14,7 @@ namespace VMToHackASM
             const string stackTestFile = "StackTest.vm";
 
             var fileReader = new VmFileReader(StackTestPath + stackTestFile);
-            var translator = new VmTranslator(2,3,21,6,1);
+            var translator = new VmTranslator(256, 1, 2, 3, 4, 5);
 
             try
             {
@@ -22,7 +22,7 @@ namespace VMToHackASM
 
                 foreach (var item in file)
                 {
-                    VmTranslator.VmToAsm(item);
+                    translator.VmToAsm(item);
                 }
 
                 //PrintAll(file);

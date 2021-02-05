@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace VMToHackASM
 {
@@ -7,12 +8,12 @@ namespace VMToHackASM
         private readonly Stack<short> stack = new Stack<short>(1791);
         private readonly List<short> heap = new List<short>(14576); // Mem after SCREEN, KBD, STACK and 0-15 allocation
 
-        private readonly short spPtr; 
-        private readonly short lclPtr; 
-        private readonly short argPtr; 
-        private readonly short thisPtr; 
-        private readonly short thatPtr;
-        private readonly short[] tempPtrs;
+        private short spPtr; 
+        private short lclPtr; 
+        private short argPtr; 
+        private short thisPtr; 
+        private short thatPtr;
+        private short[] tempPtrs;
         
         public static string Command { get; set; }
 
@@ -45,10 +46,16 @@ namespace VMToHackASM
         // Command || Segment || Value
         public void VmToAsm (string commandLine)
         {
-            
-            
-            
             CombineFullLine(commandLine);
+            List<string> sList = Push("constant", 1);
+
+            for (int i = 0; i < sList.Count; i++)
+            {
+                Console.WriteLine(sList[i]);
+            }
+
+            Console.ReadKey();
+            
         }
 
         /// <summary>
@@ -91,11 +98,40 @@ namespace VMToHackASM
         }
 
         /// <summary>
-        /// Pushes a value at Stackpointer's position.
+        /// Pushes a value from Stackpointer's position, to specified address.
         /// </summary>
-        private static void Push(string SPpos, string segment, string value)
+        private List<string> Push(string segment, short value)
         {
+            // constant, this, that, 
+            //push constant 1
+            //@1
+            //D = A // D = 1
+            //@SP
+            //A = M // push D onto stack
+            //M = D
+            //@SP
+            //M = M + 1 // “preincrement” SP
 
+            List<string> listOfCommands = new List<string>();
+
+            switch (segment)
+            {
+                case "constant":
+                    listOfCommands.Add("@" + value);
+                    listOfCommands.Add("D=A");
+                    listOfCommands.Add("@SP");
+                    listOfCommands.Add("A=M");
+                    listOfCommands.Add("M=D");
+                    listOfCommands.Add("@SP");
+                    listOfCommands.Add("M=M+1");
+                    break;
+                default:
+                    break;
+            }
+
+            this.spPtr++;
+
+            return listOfCommands;
         }
 
         /// <summary>
