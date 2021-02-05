@@ -13,7 +13,7 @@ namespace VMToHackASM.Data
             // IN OTHER WORDS, DON'T END COMMANDS WITH: @SP, @AM=M+1
             string[] addCommand = {"@SP", "AM=M-1", "D=M", "A=A-1", "M=M+D"};
             string[] subCommand = {"@SP", "AM=M-1", "D=M", "A=A-1", "M=M-D"};
-            string[] negCommand = {"@SP", "AM=M-1", "M=-M1"};
+            string[] negCommand = {"@SP", "AM=M-1", "M=-M"};
 
             Map.Add("add", addCommand);
             Map.Add("sub", subCommand);
@@ -45,7 +45,7 @@ namespace VMToHackASM.Data
             {
                 "@SP", "A=M-1", "A=A-1", "D=M", "A=A+1", "D=D-M",
                 "@File." + label1, "D;JEQ",
-                "@File." + label2, "0;JMP",
+                "@File." + label2, "D=0", "0;JMP",
                 $"(File.{label1})", "D=-1",
                 $"(File.{label2})",
                 "@SP", "AM=M-1", "A=A-1", "M=D"
@@ -60,7 +60,7 @@ namespace VMToHackASM.Data
             {
                 "@SP", "A=M-1", "A=A-1", "D=M", "A=A+1", "D=D-M",
                 "@File." + label1, "D;JGT",
-                "@File." + label2, "0;JMP",
+                "@File." + label2, "D=0", "0;JMP",
                 $"(File.{label1})", "D=-1",
                 $"(File.{label2})",
                 "@SP", "AM=M-1", "A=A-1", "M=D"
@@ -75,7 +75,7 @@ namespace VMToHackASM.Data
             {
                 "@SP", "A=M-1", "A=A-1", "D=M", "A=A+1", "D=D-M",
                 "@File." + label1, "D;JLT",
-                "@File." + label2, "0;JMP",
+                "@File." + label2, "D=0", "0;JMP",
                 $"(File.{label1})", "D=-1",
                 $"(File.{label2})",
                 "@SP", "AM=M-1", "A=A-1", "M=D"
