@@ -8,13 +8,13 @@ namespace VMToHackASM
         private readonly Stack<short> stack = new Stack<short>(1791);
         private readonly List<short> heap = new List<short>(14576); // Mem after SCREEN, KBD, STACK and 0-15 allocation
 
-        private short spPtr; 
-        private short lclPtr; 
-        private short argPtr; 
-        private short thisPtr; 
+        private short spPtr;
+        private short lclPtr;
+        private short argPtr;
+        private short thisPtr;
         private short thatPtr;
         private short[] tempPtrs;
-        
+
         public static string Command { get; set; }
 
         public static string Segment { get; set; }
@@ -33,7 +33,8 @@ namespace VMToHackASM
         /// <param name="thisPtr"></param>
         /// <param name="thatPtr"></param>
         /// <param name="tempPtrs"></param>
-        public VmTranslator(short stackPtr, short lclPtr, short argPtr, short thisPtr, short thatPtr, params short[] tempPtrs)
+        public VmTranslator(short stackPtr, short lclPtr, short argPtr, short thisPtr, short thatPtr,
+            params short[] tempPtrs)
         {
             this.spPtr = stackPtr;
             this.lclPtr = lclPtr;
@@ -44,18 +45,60 @@ namespace VMToHackASM
         }
 
         // Command || Segment || Value
-        public void VmToAsm (string commandLine)
+        public IEnumerable<string> VmToAsm(string commandLine)
         {
-            CombineFullLine(commandLine);
-            List<string> sList = Push("constant", 1);
+            var commands = commandLine.Split(' ');
 
-            for (int i = 0; i < sList.Count; i++)
+            if (commands.Length > 1)
             {
-                Console.WriteLine(sList[i]);
+                switch (commandLine)
+                {
+                    case "push":
+
+                        break;
+                    case "pop":
+
+                        break;
+                }
+            }
+            else
+            {
+                switch (commandLine)
+                {
+                    case "add":
+
+                        break;
+                    case "sub":
+
+                        break;
+                    case "neg":
+
+                        break;
+                    case "eq":
+
+                        break;
+                    case "gt":
+
+                        break;
+                    case "lt":
+
+                        break;
+                    case "and":
+
+                        break;
+                    case "or":
+
+                        break;
+                    case "not":
+
+                        break;
+                }
             }
 
-            Console.ReadKey();
-            
+            CombineFullLine(commandLine);
+            var sList = Push("constant", 1);
+
+            return sList;
         }
 
         /// <summary>
@@ -112,7 +155,7 @@ namespace VMToHackASM
             //@SP
             //M = M + 1 // “preincrement” SP
 
-            List<string> listOfCommands = new List<string>();
+            var listOfCommands = new List<string>();
 
             switch (segment)
             {
@@ -139,7 +182,6 @@ namespace VMToHackASM
         /// </summary>
         private static void Pop(string SPpos, string segment, string value)
         {
-
         }
 
         private static void CombineFullLine(string line)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace VMToHackASM
+namespace VMToHackASM.IO
 {
     public class VmFileReader
     {

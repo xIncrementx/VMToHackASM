@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using VMToHackASM.IO;
 
 namespace VMToHackASM
 {
@@ -20,7 +21,7 @@ namespace VMToHackASM
             {
                 var file = fileReader.GetAll();
 
-                foreach (var item in file)
+                foreach (string item in file)
                 {
                     translator.VmToAsm(item);
                 }
