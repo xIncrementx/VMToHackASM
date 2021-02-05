@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using VMToHackASM.IO;
+using VMToHackASM.Parsers;
 
 namespace VMToHackASM
 {
@@ -14,8 +15,9 @@ namespace VMToHackASM
             const string simpleAddFile = "SimpleAdd.vm";
             const string stackTestFile = "StackTest.vm";
 
-            var fileReader = new VmFileReader(SimpleAddPath + simpleAddFile);
-            var translator = new VmTranslator(256, 1, 2, 3, 4, 5);
+            var fileReader = new VmFileReader(StackTestPath + stackTestFile);
+            var translator = new VmToHackAsm(256, 1, 2, 3, 4, 5);
+            var list = new List<string>();
 
             try
             {
@@ -23,10 +25,10 @@ namespace VMToHackASM
 
                 foreach (string item in file)
                 {
-                    translator.VmToAsm(item);
+                   list.AddRange(translator.VmToAsm(item));
                 }
-
-                //PrintAll(file);
+                
+                PrintAll(list);
             }
             catch (Exception e)
             {
@@ -37,6 +39,14 @@ namespace VMToHackASM
         }
 
         private static void PrintAll(IEnumerable<string> file)
+        {
+            foreach (string s in file)
+            {
+                Console.WriteLine($"{s}");
+            }
+        }
+        
+        private static void PrintAllWithLine(IEnumerable<string> file)
         {
             int line = 0;
             foreach (string s in file)

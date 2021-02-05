@@ -39,7 +39,7 @@ add
 push constant 112
 sub
 neg
-and
-push constant 82
-or
-not
+//and
+//push constant 82
+//or
+//not

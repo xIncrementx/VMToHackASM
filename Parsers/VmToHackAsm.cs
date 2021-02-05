@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
-using System;
+using VMToHackASM.Data;
 
-namespace VMToHackASM
+namespace VMToHackASM.Parsers
 {
-    public class VmTranslator
+    public class VmToHackAsm
     {
+        private const short StaticPtr = 16;
+        
         private readonly Stack<short> stack = new Stack<short>(1791);
-        private readonly List<short> heap = new List<short>(14576); // Mem after SCREEN, KBD, STACK and 0-15 allocation
+        private readonly List<short> heap = new List<short>(14335); // Mem after SCREEN, KBD, STACK and 0-15 allocation
 
         private short spPtr;
         private short lclPtr;
@@ -14,7 +16,6 @@ namespace VMToHackASM
         private short thisPtr;
         private short thatPtr;
         private short[] tempPtrs;
-        const short staticStart = 16;
 
         public static string Command { get; set; }
 
@@ -34,7 +35,7 @@ namespace VMToHackASM
         /// <param name="thisPtr"></param>
         /// <param name="thatPtr"></param>
         /// <param name="tempPtrs"></param>
-        public VmTranslator(short stackPtr, short lclPtr, short argPtr, short thisPtr, short thatPtr,
+        public VmToHackAsm(short stackPtr, short lclPtr, short argPtr, short thisPtr, short thatPtr,
             params short[] tempPtrs)
         {
             this.spPtr = stackPtr;
@@ -45,9 +46,10 @@ namespace VMToHackASM
             this.tempPtrs = tempPtrs;
         }
 
-        public IEnumerable<string> VmToAsm(string commandLine)
+        public IEnumerable<string> VmToAsm(string line)
         {
-            var commands = commandLine.Split(' ');
+            var commands = line.Split(' ');
+            var list = new List<string>();
 
             if (commands.Length > 1)
             {
@@ -58,46 +60,19 @@ namespace VMToHackASM
                 switch (command)
                 {
                     case "push":
-                        return Push(segment, value);
+                        list.AddRange(Push(segment, value));
+                        break;
                     case "pop":
                         break;
                 }
             }
             else
             {
-                switch (commandLine)
-                {
-                    case "add":
-
-                        break;
-                    case "sub":
-
-                        break;
-                    case "neg":
-
-                        break;
-                    case "eq":
-
-                        break;
-                    case "gt":
-
-                        break;
-                    case "lt":
-
-                        break;
-                    case "and":
-
-                        break;
-                    case "or":
-
-                        break;
-                    case "not":
-
-                        break;
-                }
+                var command = CommandTable.GetCommand(line);
+                list.AddRange(command);
             }
 
-            return null;
+            return list;
         }
 
         /// <summary>
@@ -142,7 +117,7 @@ namespace VMToHackASM
         /// <summary>
         /// Pushes a value from Stackpointer's position, to specified address.
         /// </summary>
-        private List<string> Push(string segment, short value)
+        private IEnumerable<string> Push(string segment, short value)
         {
             var listOfCommands = new List<string>();
 
@@ -166,7 +141,13 @@ namespace VMToHackASM
                     listOfCommands.Add("M=D");
                     break;
                 case "static":
-                    listOfCommands.Add("@" + staticStart + value);
+                    listOfCommands.Add("@" + StaticPtr + value);
+                    listOfCommands.Add("D=M");
+                    listOfCommands.Add("@" + value);
+                    listOfCommands.Add("D=D+A");
+                    listOfCommands.Add("@SP");
+                    listOfCommands.Add("A=M");
+                    listOfCommands.Add("M=D");
                     break;
                 case "arg":
                     break;
@@ -175,7 +156,7 @@ namespace VMToHackASM
                 case "that":
                     break;
                 //case "temp":
-                    //break;
+                //break;
                 default:
                     break;
             }
