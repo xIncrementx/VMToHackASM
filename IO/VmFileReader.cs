@@ -19,8 +19,9 @@ namespace VMToHackASM.IO
             };
         }
 
-        public IEnumerable<string> GetAll()
+        public IReadOnlyList<string> GetAll()
         {
+            var vmFile = new List<string>();
             var fileReader = new StreamReader(this.path);
             
             for (string line; (line = fileReader.ReadLine()) != null;)
@@ -34,8 +35,10 @@ namespace VMToHackASM.IO
                 bool invalidCommand = !IsValidCommand(line);
                 if (invalidCommand) throw new Exception("This command is not valid...");
 
-                yield return line;
+                vmFile.Add(line);
             }
+
+            return vmFile;
         }
 
         private bool IsValidCommand(string text)
