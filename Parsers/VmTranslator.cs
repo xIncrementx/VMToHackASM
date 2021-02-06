@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using VMToHackASM.Data;
+using VMToHackASM.Managers;
 
 namespace VMToHackASM.Parsers
 {
@@ -41,29 +42,31 @@ namespace VMToHackASM.Parsers
         /// Translates VM to Hack assembly language.
         /// </summary>
         /// <param name="vmOperations"></param>
+        /// <param name="filename"></param>
         /// <returns></returns>
-        public IEnumerable<string> ToHackAsm(IEnumerable<string> vmOperations)
+        public IEnumerable<string> ToHackAsm(IEnumerable<string> vmOperations, string filename)
         {
-            var asmOperationManager = new AsmOperationManager();
+            var asmOperationManager = new AsmOperationManager(filename);
             var asmOperations = new List<string>(100);
 
-            foreach (string operation in vmOperations)
+            foreach (string vmOperation in vmOperations)
             {
-                var splitOperation = operation.Split(' ');
+                var splitVmOperation = vmOperation.Split(' ');
 
-                if (splitOperation.Length > 1)
+                if (splitVmOperation.Length > 1)
                 {
-                    string command = splitOperation[0];
-                    string segment = splitOperation[1];
-                    short value = short.Parse(splitOperation[2]);
+                    string command = splitVmOperation[0];
+                    string segment = splitVmOperation[1];
+                    short value = short.Parse(splitVmOperation[2]);
 
                     switch (command)
                     {
                         case "push":
-                            asmOperations.AddRange(Push(segment, value));
+                            var asmOperation = Push(segment, value);
+                            asmOperations.AddRange(asmOperation);
                             asmOperations.Add("@SP");
                             asmOperations.Add("M=M+1");
-                            this.Pushed = true;
+                            asmOperationManager.StackPointerFocused = true;
                             break;
                         case "pop":
                             break;
@@ -71,9 +74,9 @@ namespace VMToHackASM.Parsers
                 }
                 else
                 {
-                    var operations = asmOperationManager.GetOperation(operation);
-                    asmOperations.AddRange(operations);
-                    this.Pushed = false;
+                    var asmOperation = asmOperationManager.GetOperation(vmOperation);
+                    asmOperations.AddRange(asmOperation);
+                    asmOperationManager.StackPointerFocused = false;
                 }
             }
             

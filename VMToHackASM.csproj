@@ -5,4 +5,9 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="Data\AsmOperation.cs" />
+      <Compile Remove="Data\ArithmeticOperation.cs" />
+    </ItemGroup>
+
 </Project>
