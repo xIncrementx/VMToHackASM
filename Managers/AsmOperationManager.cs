@@ -22,12 +22,12 @@ namespace VMToHackASM.Managers
 
             operation.AddRange(operationEnum switch
             {
-                AnyOperation.Addition => GetAndOrAddSubOperation('+'), // Works
-                AnyOperation.Subtraction => GetAndOrAddSubOperation('-'), // Works
-                AnyOperation.And => GetAndOrAddSubOperation('&'), // 
-                AnyOperation.Or => GetAndOrAddSubOperation('|'), //
-                AnyOperation.UnaryNegation => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"}, // Works
-                AnyOperation.Not => new[] {"A=M-1", "M=!M"}, //
+                AnyOperation.Addition => GetAndOrAddSubOperation('+'),
+                AnyOperation.Subtraction => GetAndOrAddSubOperation('-'),
+                AnyOperation.And => GetAndOrAddSubOperation('&'),
+                AnyOperation.Or => GetAndOrAddSubOperation('|'),
+                AnyOperation.UnaryNegation => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
+                AnyOperation.Not => new[] {"A=M-1", "M=!M"},
                 AnyOperation.Comparison => GetComparisonOperation(vmOperation),
                 _ => throw new Exception("Operator does not exist.")
             });
