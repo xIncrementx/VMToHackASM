@@ -10,13 +10,6 @@ namespace VMToHackASM.Managers
 
         public OperationManager(string fileName) => this.fileName = fileName;
 
-        public short StackPtrMem { get; set; } = 256;
-        public short LocalPtrMem { get; set; } = 300;
-        public short ArgPtrMem { get; set; } = 400;
-        public short ThisPtrMem { get; set; } = 3000;
-        public short ThatPtrMem { get; set; } = 3010;
-        public short[] TempPtrsMem { get; set; } = new short[7];
-
         public IEnumerable<string> Push(VmSegment vmSegment, short value)
         {
             var asmCommands = new List<string> {"// Push "};
@@ -28,6 +21,7 @@ namespace VMToHackASM.Managers
                 VmSegment.Argument => GetPushOperation("ARG", value),
                 VmSegment.This => GetPushOperation("THIS", value),
                 VmSegment.That => GetPushOperation("THAT", value),
+                VmSegment.Temp => GetPushOperation("temp", value),
                 VmSegment.Static => new[] {$"@{this.fileName}.{value}", "D=M", "@SP", "A=M", "M=D"},
                 VmSegment.Pointer => new[] {$"@{(value == 0 ? "THIS" : "THAT")}", "D=M", "@SP", "A=M", "M=D"},
                 _ => throw new Exception("Invalid segment.")
@@ -50,6 +44,7 @@ namespace VMToHackASM.Managers
                 VmSegment.That => GetPopOperation("THAT", value),
                 VmSegment.Static => new[] {"@SP", "AM=M-1", "D=M", $"@{this.fileName}.{value}", "M=D"},
                 VmSegment.Pointer => new[] {"@SP", "AM=M-1", "D=M", $"@{(value == 0 ? "THIS" : "THAT")}", "M=D"},
+                VmSegment.Temp => new[] {"@SP", "AM=M-1", "D=M", $"@temp.{value}", "M=D"},
                 _ => throw new Exception("Invalid segment.")
             });
 

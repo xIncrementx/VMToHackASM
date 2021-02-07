@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using VMToHackASM.DataTypeUtilities;
 using VMToHackASM.Models;
+using VMToHackASM.Utilities;
 
 namespace VMToHackASM.Factories
 {

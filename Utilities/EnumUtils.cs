@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VMToHackASM.DataTypeUtilities
+namespace VMToHackASM.Utilities
 {
     public static class EnumUtils
     {

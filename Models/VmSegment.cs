@@ -8,6 +8,7 @@
         This,
         That,
         Static,
-        Pointer
+        Pointer,
+        Temp
     }
 }
