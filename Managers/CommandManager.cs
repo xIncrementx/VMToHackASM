@@ -23,9 +23,9 @@ namespace VMToHackASM.Managers
             {
                 VmCommandType.Add => GetArithmeticOrLogicalOperation('+'),
                 VmCommandType.Sub => GetArithmeticOrLogicalOperation('-'),
-                VmCommandType.Neg => GetArithmeticOrLogicalOperation('&'),
-                VmCommandType.And => GetArithmeticOrLogicalOperation('|'),
-                VmCommandType.Or => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
+                VmCommandType.Or => GetArithmeticOrLogicalOperation('|'),
+                VmCommandType.And => GetArithmeticOrLogicalOperation('&'),
+                VmCommandType.Neg => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
                 VmCommandType.Not => new[] {"A=M-1", "M=!M"},
                 VmCommandType.Eq => GetComparisonOperation("EQ"),
                 VmCommandType.Gt => GetComparisonOperation("GT"),

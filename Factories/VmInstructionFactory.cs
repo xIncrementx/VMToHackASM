@@ -20,7 +20,7 @@ namespace VMToHackASM.Factories
                     var operationType = EnumUtils.StringToEnum<VmOperationType>(vmInstructionType);
                     string segmentString = vmOperation[1];
                     short value = short.Parse(vmOperation[2]);
-                    var segment = EnumUtils.StringToEnum<Segment>(segmentString);
+                    var segment = EnumUtils.StringToEnum<VmSegment>(segmentString);
 
                     vmOperationInstance = new VmOperation(operationType, segment, value);
                 }

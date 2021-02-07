@@ -3,7 +3,7 @@
     public interface IVmOperation : IVmInstruction
     {
         public VmOperationType VmOperationType { get; }
-        public Segment Segment { get; }
+        public VmSegment VmSegment { get; }
         public short Value { get; }
     }
 }

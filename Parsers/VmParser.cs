@@ -27,7 +27,7 @@ namespace VMToHackASM.Parsers
                     case VmInstruction.Operation:
                         var operation = (IVmOperation) vmInstruction;
                         var operationType = operation.VmOperationType;
-                        var segment = operation.Segment;
+                        var segment = operation.VmSegment;
                         short value = operation.Value;
 
                         asmCommands.AddRange(operationType switch

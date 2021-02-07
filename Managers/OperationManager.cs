@@ -24,33 +24,32 @@ namespace VMToHackASM.Managers
             this.tempPtrsMem = tempPtrsMem;
         }
 
-        public IEnumerable<string> Push(Segment segment, short value)
+        public IEnumerable<string> Push(VmSegment vmSegment, short value)
         {
             var commands = new List<string>();
 
-            commands.AddRange(segment switch
+            commands.AddRange(vmSegment switch
             {
-                Segment.Constant => new[] {$@"{value}", "D=A", "@SP", "A=M", "M=D"},
-                Segment.Local => GetSegment("LCL", value),
-                Segment.Argument => GetSegment("ARG", value),
-                Segment.This => GetSegment("THIS", value),
-                Segment.That => GetSegment("THAT", value),
-                Segment.Static => GetSegment("static", value),
-                Segment.Pointer => GetPointerSegment(value),
+                VmSegment.Constant => new[] {$"@{value}", "D=A", "@SP", "A=M", "M=D"},
+                VmSegment.Local => GetSegment("LCL", value),
+                VmSegment.Argument => GetSegment("ARG", value),
+                VmSegment.This => GetSegment("THIS", value),
+                VmSegment.That => GetSegment("THAT", value),
+                VmSegment.Static => GetSegment("static", value),
+                VmSegment.Pointer => GetPointerSegment(value),
                 _ => throw new Exception("Invalid segment.")
             });
 
-            commands.Add("@SP");
-            commands.Add("M=M+1");
+            commands.AddRange(GetIncrementStackPointer());
 
             return commands;
         }
 
-        public IEnumerable<string> Pop(Segment segment, short value)
+        public IEnumerable<string> Pop(VmSegment vmSegment, short value)
         {
             var commands = new List<string>();
 
-            commands.AddRange(segment switch
+            commands.AddRange(vmSegment switch
             {
             });
 
@@ -62,5 +61,7 @@ namespace VMToHackASM.Managers
 
         private static IEnumerable<string> GetSegment(string segment, short value) => new[]
             {$"@{segment}", "D=M", $"@{value}", "D=D+A", "@SP", "A=M", "M=D"};
+
+        private static IEnumerable<string> GetIncrementStackPointer() => new[] {"@SP", "M=M+1"};
     }
 }

@@ -27,25 +27,18 @@ namespace VMToHackASM.IO
 
             for (string line; (line = fileReader.ReadLine()) != null;)
             {
-                try
-                {
-                    line.TrimStart();
-                    bool hasComment = line.Contains("//");
-                    if (hasComment) line = RemoveComment(line);
-                    if (line.Length == 0) continue;
-                    line.TrimEnd();
+                line.TrimStart();
+                bool hasComment = line.Contains("//");
+                if (hasComment) line = RemoveComment(line);
+                if (line.Length == 0) continue;
+                line.TrimEnd();
 
-                    bool invalidCommand = !IsValidCommand(line);
-                    if (invalidCommand) throw new InvalidVmCommandException(line);
+                bool invalidCommand = !IsValidCommand(line);
+                if (invalidCommand) throw new InvalidVmCommandException(line);
 
-                    var lineSplit = line.Split(' ');
+                var lineSplit = line.Split(' ');
 
-                    vmFile.Add(lineSplit);
-                }
-                catch (InvalidVmCommandException e)
-                {
-                    Console.WriteLine(e);
-                }
+                vmFile.Add(lineSplit);
             }
 
             return vmFile;
