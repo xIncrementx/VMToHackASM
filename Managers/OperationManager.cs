@@ -6,23 +6,16 @@ namespace VMToHackASM.Managers
 {
     public class OperationManager : IOperationManager
     {
-        private short spPtrMem;
-        private short lclPtrMem;
-        private short argPtrMem;
-        private short thisPtrMem;
-        private short thatPtrMem;
-        private short[] tempPtrsMem;
+        private readonly string fileName;
 
-        public OperationManager(short spPtrMem, short lclPtrMem, short argPtrMem, short thisPtrMem, short thatPtrMem,
-            params short[] tempPtrsMem)
-        {
-            this.spPtrMem = spPtrMem;
-            this.lclPtrMem = lclPtrMem;
-            this.argPtrMem = argPtrMem;
-            this.thisPtrMem = thisPtrMem;
-            this.thatPtrMem = thatPtrMem;
-            this.tempPtrsMem = tempPtrsMem;
-        }
+        public OperationManager(string fileName) => this.fileName = fileName;
+
+        public short StackPtrMem { get; set; } = 256;
+        public short LocalPtrMem { get; set; } = 300;
+        public short ArgPtrMem { get; set; } = 400;
+        public short ThisPtrMem { get; set; } = 3000;
+        public short ThatPtrMem { get; set; } = 3010; 
+        public short[] TempPtrsMem { get; set; } = new short[7];
 
         public IEnumerable<string> Push(VmSegment vmSegment, short value)
         {
@@ -35,7 +28,7 @@ namespace VMToHackASM.Managers
                 VmSegment.Argument => GetSegment("ARG", value),
                 VmSegment.This => GetSegment("THIS", value),
                 VmSegment.That => GetSegment("THAT", value),
-                VmSegment.Static => GetSegment("static", value),
+                VmSegment.Static => GetSegment(this.fileName, value),
                 VmSegment.Pointer => GetPointerSegment(value),
                 _ => throw new Exception("Invalid segment.")
             });
@@ -60,7 +53,7 @@ namespace VMToHackASM.Managers
             GetSegment(pointerValue == 0 ? "THIS" : "THAT", pointerValue);
 
         private static IEnumerable<string> GetSegment(string segment, short value) => new[]
-            {$"@{segment}", "D=M", $"@{value}", "D=D+A", "@SP", "A=M", "M=D"};
+            {$"@{value}", "D=A", $"@{segment}", "A=M+D", "D=M", "@SP", "A=M","M=D"};
 
         private static IEnumerable<string> GetIncrementStackPointer() => new[] {"@SP", "M=M+1"};
     }
