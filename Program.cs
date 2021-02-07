@@ -1,8 +1,8 @@
 ﻿using System;
+using VMToHackASM.Factories;
 using VMToHackASM.IO;
 using VMToHackASM.Managers;
 using VMToHackASM.Parsers;
-using VMToHackASM.Utilities;
 
 namespace VMToHackASM
 {
@@ -18,17 +18,16 @@ namespace VMToHackASM
             string vmTestFile = DesktopPath + TestPath + "StackTest.vm";
             string outputFilePath = DesktopPath + TestPath + outputFilename + OutputFileExtension;
             
-
-            ISegmentManager segmentManager = new SegmentManager(256, 300, 400, 3000, 3010);
+            IOperationManager operationManager = new OperationManager(256, 300, 400, 3000, 3010);
             ICommandManager commandManager = new CommandManager(outputFilename);
-            var vmParser = new VmParser(segmentManager, commandManager);
+            var vmParser = new VmParser(operationManager, commandManager);
             var fileReader = new VmFileReader(vmTestFile);
 
             try
             {
                 var vmOperations = fileReader.GetAll();
-                var vmOperationsSplit = Text.SplitAll(vmOperations);
-                var asmOperations = vmParser.ToHackAsm(vmOperationsSplit);
+                var vmInstructionInstances = VmInstructionFactory.CreateCollection(vmOperations);
+                var asmOperations = vmParser.ToHackAsm(vmInstructionInstances);
                 FileWriter.Write(asmOperations, outputFilePath);
             }
             catch (Exception e)

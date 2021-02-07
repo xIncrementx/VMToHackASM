@@ -1,4 +1,4 @@
-﻿namespace VMToHackASM.Data
+﻿namespace VMToHackASM.Models
 {
     public enum AnyOperation
     {

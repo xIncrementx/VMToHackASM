@@ -1,41 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using VMToHackASM.Exceptions;
 
 namespace VMToHackASM.IO
 {
     public class VmFileReader
     {
-        private readonly IReadOnlyList<string> commandList;
+        private readonly IReadOnlyList<string> vmOperations;
         private readonly string path;
 
         public VmFileReader(string path)
         {
             this.path = path;
 
-            this.commandList = new List<string>()
+            this.vmOperations = new List<string>
             {
                 "push", "pop", "add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not"
             };
         }
 
-        public IReadOnlyList<string> GetAll()
+        public IEnumerable<string[]> GetAll()
         {
-            var vmFile = new List<string>();
+            var vmFile = new List<string[]>();
             var fileReader = new StreamReader(this.path);
-            
+
             for (string line; (line = fileReader.ReadLine()) != null;)
             {
-                line.TrimStart();
-                bool hasComment = line.Contains("//");
-                if (hasComment) line = RemoveComment(line);
-                if (line.Length == 0) continue;
-                line.TrimEnd();
-                
-                bool invalidCommand = !IsValidCommand(line);
-                if (invalidCommand) throw new Exception("This command is not valid...");
+                try
+                {
+                    line.TrimStart();
+                    bool hasComment = line.Contains("//");
+                    if (hasComment) line = RemoveComment(line);
+                    if (line.Length == 0) continue;
+                    line.TrimEnd();
 
-                vmFile.Add(line);
+                    bool invalidCommand = !IsValidCommand(line);
+                    if (invalidCommand) throw new InvalidVmCommandException(line);
+
+                    var lineSplit = line.Split(' ');
+
+                    vmFile.Add(lineSplit);
+                }
+                catch (InvalidVmCommandException e)
+                {
+                    Console.WriteLine(e);
+                }
             }
 
             return vmFile;
@@ -43,7 +53,7 @@ namespace VMToHackASM.IO
 
         private bool IsValidCommand(string text)
         {
-            foreach (string s in this.commandList)
+            foreach (string s in this.vmOperations)
             {
                 bool validCommand = text.Contains(s);
 
@@ -56,11 +66,6 @@ namespace VMToHackASM.IO
             return false;
         }
 
-        /// <summary>
-        /// Removes comments and white space from a string.
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
         private static string RemoveComment(string s)
         {
             for (int i = 0; i < s.Length; i++)
@@ -72,7 +77,7 @@ namespace VMToHackASM.IO
                 int removeTrailing = s.Length - i;
                 return s.Remove(i, removeTrailing).Replace(" ", "");
             }
-            
+
             return s.Replace(" ", string.Empty);
         }
     }

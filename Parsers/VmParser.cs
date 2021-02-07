@@ -1,44 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using VMToHackASM.Managers;
+using VMToHackASM.Models;
 
 namespace VMToHackASM.Parsers
 {
     public class VmParser
     {
-        private readonly ISegmentManager segmentManager;
+        private readonly IOperationManager operationManager;
         private readonly ICommandManager commandManager;
 
-        public VmParser(ISegmentManager segmentManager, ICommandManager commandManager)
+        public VmParser(IOperationManager operationManager, ICommandManager commandManager)
         {
-            this.segmentManager = segmentManager;
+            this.operationManager = operationManager;
             this.commandManager = commandManager;
         }
 
-        /// <summary>
-        /// Translates VM to Hack assembly language.
-        /// </summary>
-        /// <param name="vmCommandsSplit"></param>
-        /// <returns></returns>
-        public IEnumerable<string> ToHackAsm(IEnumerable<string[]> vmCommandsSplit)
+        public IEnumerable<string> ToHackAsm(IEnumerable<IVmInstruction> vmInstructions)
         {
             var asmCommands = new List<string>(100);
 
-            foreach (var vmCommandSplit in vmCommandsSplit)
+            foreach (var vmInstruction in vmInstructions)
             {
-                if (vmCommandSplit.Length > 1)
+                switch (vmInstruction.Instruction)
                 {
-                    string segment = vmCommandSplit[1];
-                    short value = short.Parse(vmCommandSplit[2]);
-                    var asmCommand = this.segmentManager.Push(segment, value);
-                    asmCommands.AddRange(asmCommand);
-                    this.commandManager.StackPointerFocused = true;
-                }
-                else
-                {
-                    string operation = vmCommandSplit[0];
-                    var asmCommand = this.commandManager.GetCommands(operation);
-                    asmCommands.AddRange(asmCommand);
-                    this.commandManager.StackPointerFocused = false;
+                    case VmInstruction.Operation:
+                        var operation = (IVmOperation) vmInstruction;
+                        var operationType = operation.VmOperationType;
+                        var segment = operation.Segment;
+                        short value = operation.Value;
+
+                        asmCommands.AddRange(operationType switch
+                        {
+                            VmOperationType.Push => this.operationManager.Push(segment, value),
+                            VmOperationType.Pop => this.operationManager.Pop(segment, value),
+                            _ => throw new Exception("Operation does not exist.")
+                        });
+                        this.commandManager.StackPointerFocused = true;
+                        break;
+                    case VmInstruction.Command:
+                        var command = (IVmCommand) vmInstruction;
+                        var commandType = command.CommandType;
+
+                        asmCommands.AddRange(this.commandManager.GetCommands(commandType));
+                        this.commandManager.StackPointerFocused = false;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using VMToHackASM.Data;
+using VMToHackASM.Models;
 
 namespace VMToHackASM.Managers
 {
@@ -11,61 +11,38 @@ namespace VMToHackASM.Managers
 
         public CommandManager(string filename) => this.filename = filename;
 
-        public IEnumerable<string> GetCommands(string vmOperation)
+        public IEnumerable<string> GetCommands(VmCommandType commandType)
         {
-            var commands = new List<string>();
-            var commandEnum = GetOperationEnum(vmOperation);
+            var asmOperation = new List<string>();
             bool stackPointerNotFocused = !StackPointerFocused;
 
             if (stackPointerNotFocused)
-                commands.Add("@SP");
+                asmOperation.Add("@SP");
 
-            commands.AddRange(commandEnum switch
+            asmOperation.AddRange(commandType switch
             {
-                AnyOperation.Addition => GetArithmeticOrLogicalCommand('+'),
-                AnyOperation.Subtraction => GetArithmeticOrLogicalCommand('-'),
-                AnyOperation.And => GetArithmeticOrLogicalCommand('&'),
-                AnyOperation.Or => GetArithmeticOrLogicalCommand('|'),
-                AnyOperation.UnaryNegation => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
-                AnyOperation.Not => new[] {"A=M-1", "M=!M"},
-                AnyOperation.Comparison => GetComparisonOperation(vmOperation),
+                VmCommandType.Add => GetArithmeticOrLogicalOperation('+'),
+                VmCommandType.Sub => GetArithmeticOrLogicalOperation('-'),
+                VmCommandType.Neg => GetArithmeticOrLogicalOperation('&'),
+                VmCommandType.And => GetArithmeticOrLogicalOperation('|'),
+                VmCommandType.Or => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
+                VmCommandType.Not => new[] {"A=M-1", "M=!M"},
+                VmCommandType.Eq => GetComparisonOperation("EQ"),
+                VmCommandType.Gt => GetComparisonOperation("GT"),
+                VmCommandType.Lt => GetComparisonOperation("LT"),
                 _ => throw new Exception("Operator does not exist.")
             });
 
-            return commands;
+            return asmOperation;
         }
 
         public bool StackPointerFocused { get; set; }
 
-        private static AnyOperation GetOperationEnum(string vmOperation)
-        {
-            return vmOperation switch
-            {
-                "eq" => AnyOperation.Comparison,
-                "gt" => AnyOperation.Comparison,
-                "lt" => AnyOperation.Comparison,
-                "and" => AnyOperation.And,
-                "or" => AnyOperation.Or,
-                "not" => AnyOperation.Not,
-                "add" => AnyOperation.Addition,
-                "sub" => AnyOperation.Subtraction,
-                "neg" => AnyOperation.UnaryNegation,
-                _ => throw new Exception("Operation enum does not exist.")
-            };
-        }
-
-        /// <summary>
-        /// The ASM command for AND, OR, addition and subtraction only differ by their operator sign.
-        /// </summary>
-        /// <param name="operatorSign"></param>
-        /// <returns></returns>
-        private static IEnumerable<string> GetArithmeticOrLogicalCommand(char operatorSign) =>
+        private static IEnumerable<string> GetArithmeticOrLogicalOperation(char operatorSign) =>
             new[] {"AM=M-1", "D=M", "A=A-1", $"M=M{operatorSign}D"};
 
         private IEnumerable<string> GetComparisonOperation(string comparisonCommand)
         {
-            comparisonCommand = comparisonCommand.ToUpper();
-
             short asmVarNumber1 = GetNextNumber();
             short asmVarNumber2 = GetNextNumber();
 
