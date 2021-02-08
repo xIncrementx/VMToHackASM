@@ -34,7 +34,7 @@ namespace VMToHackASM.Managers
                         {
                             VmOperationType.Push => this.operationParser.GetPushOperation(segment, value),
                             VmOperationType.Pop => this.operationParser.GetPopOperation(segment, value),
-                            _ => throw new Exception("Operation does not exist.")
+                            _ => throw new ArgumentOutOfRangeException(nameof(operationType), "Operation does not exist.")
                         });
                         this.commandParser.StackPointerFocused = true;
                         break;
@@ -46,7 +46,7 @@ namespace VMToHackASM.Managers
                         this.commandParser.StackPointerFocused = false;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(commandType), "Command does not exist.");
                 }
             }
 

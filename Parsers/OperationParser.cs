@@ -24,7 +24,7 @@ namespace VMToHackASM.Parsers
                 VmSegment.Temp => GetPushOperation("temp", value),
                 VmSegment.Static => new[] {$"@{this.fileName}.{value}", "D=M", "@SP", "A=M", "M=D"},
                 VmSegment.Pointer => new[] {$"@{(value == 0 ? "THIS" : "THAT")}", "D=M", "@SP", "A=M", "M=D"},
-                _ => throw new Exception("Invalid segment.")
+                _ => throw new ArgumentOutOfRangeException(nameof(vmSegment), "Invalid segment.")
             });
 
             asmCommands.AddRange(GetIncrementStackPointer());
@@ -46,7 +46,7 @@ namespace VMToHackASM.Parsers
                 VmSegment.Pointer => new[] {"@SP", "AM=M-1", "D=M", $"@{(value == 0 ? "THIS" : "THAT")}", "M=D"},
                 VmSegment.Temp => new[] {"@SP", "AM=M-1", "D=M", $"@temp.{value}", "M=D"},
                 _ => throw new ArgumentOutOfRangeException(nameof(vmSegment),
-                    $"{VmSegment.Constant} not applicable for pop operations")
+                    "Segment not applicable for pop operations")
             });
 
             return asmCommands;
