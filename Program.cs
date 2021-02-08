@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using VMToHackASM.Constants;
 using VMToHackASM.Factories;
@@ -9,7 +8,7 @@ using VMToHackASM.Parsers;
 
 namespace VMToHackASM
 {
-    class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {
