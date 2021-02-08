@@ -9,7 +9,7 @@
             Value = value;
         }
 
-        public VmInstruction Instruction { get; } = VmInstruction.Operation;
+        public VmInstructionType InstructionType { get; } = VmInstructionType.Operation;
         public VmOperationType VmOperationType  { get; }
         public VmSegment VmSegment { get; }
         public short Value { get; }

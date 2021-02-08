@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using VMToHackASM.Exceptions;
 
@@ -7,51 +6,48 @@ namespace VMToHackASM.IO
 {
     public class VmFileReader
     {
-        private readonly IReadOnlyList<string> vmOperations;
+        private readonly IReadOnlyList<string> vmInstructions;
         private readonly string path;
 
-        public VmFileReader(string path)
+        public VmFileReader(string path, IReadOnlyList<string> vmInstructions)
         {
             this.path = path;
-
-            this.vmOperations = new List<string>
-            {
-                "push", "pop", "add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not"
-            };
+            this.vmInstructions = vmInstructions;
         }
 
         /// <summary>
         /// Gets a clean and trimmed version of the .asm file.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="InvalidVmCommandException"></exception>
+        /// <exception cref="InvalidVmInstructionException"></exception>
         public IEnumerable<string[]> GetAll()
         {
-            var vmFile = new List<string[]>();
+            var vmOperationsSplit = new List<string[]>();
             var fileReader = new StreamReader(this.path);
+            var trimChars = new[] {' ', '\n', '\t'};
 
             for (string line; (line = fileReader.ReadLine()) != null;)
             {
-                line.TrimStart();
-                bool hasComment = line.Contains("//");
-                if (hasComment) line = RemoveComment(line);
-                if (line.Length == 0) continue;
-                line.TrimEnd();
+                string trimmed = line.TrimStart(trimChars);
+                bool hasComment = trimmed.Contains("//");
+                if (hasComment) trimmed = RemoveComment(trimmed);
+                if (trimmed.Length == 0) continue;
+                string vmOperation = trimmed.TrimEnd(trimChars);
 
-                bool invalidCommand = !IsValidCommand(line);
-                if (invalidCommand) throw new InvalidVmCommandException(line);
+                bool invalidInstruction = !IsValidInstruction(vmOperation);
+                if (invalidInstruction) throw new InvalidVmInstructionException(vmOperation);
 
-                var lineSplit = line.Split(' ');
+                var vmOperationSplit = vmOperation.Split(' ');
 
-                vmFile.Add(lineSplit);
+                vmOperationsSplit.Add(vmOperationSplit);
             }
 
-            return vmFile;
+            return vmOperationsSplit;
         }
 
-        private bool IsValidCommand(string text)
+        private bool IsValidInstruction(string text)
         {
-            foreach (string s in this.vmOperations)
+            foreach (string s in this.vmInstructions)
             {
                 bool validCommand = text.Contains(s);
 
@@ -73,10 +69,10 @@ namespace VMToHackASM.IO
                 if (c != '/') continue;
 
                 int removeTrailing = s.Length - i;
-                return s.Remove(i, removeTrailing).Replace(" ", "");
+                return s.Remove(i, removeTrailing);
             }
 
-            return s.Replace(" ", string.Empty);
+            return s;
         }
     }
 }

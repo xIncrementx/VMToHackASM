@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using VMToHackASM.Factories;
 using VMToHackASM.IO;
@@ -9,6 +10,12 @@ namespace VMToHackASM
 {
     class Program
     {
+        private static readonly IReadOnlyList<string> VmInstructions = new List<string>
+        {
+            "push", "pop", "add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not", "label", "if", "if-goto", "goto",
+            "function", "call", "return"
+        };
+        
         private const string Root = "./../../../";
         private const string DataPath = Root + "Data/";
         private const string InputPath = DataPath + "Input/";
@@ -22,12 +29,13 @@ namespace VMToHackASM
             IOperationParser operationParser = new OperationParser(OutputFile);
             ICommandParser commandParser = new CommandParser(OutputFile);
             var vmParser = new VmParserManager(operationParser, commandParser);
-            var fileReader = new VmFileReader(InputFile);
-
+            var fileReader = new VmFileReader(InputFile, VmInstructions);
+            
             try
             {
                 var vmOperations = fileReader.GetAll();
-                var vmInstructionInstances = VmInstructionFactory.CreateCollection(vmOperations);
+                var vmInstructionHelpers = VmInstructionHelperFactory.CreateCollection(vmOperations);
+                var vmInstructionInstances = VmInstructionFactory.CreateCollection(vmInstructionHelpers);
                 var asmOperations = vmParser.ToHackAsm(vmInstructionInstances);
                 FileWriter.Write(asmOperations, OutputFilePath);
             }

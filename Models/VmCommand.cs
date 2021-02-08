@@ -4,7 +4,7 @@
     {
         public VmCommand(VmCommandType commandType) => CommandType = commandType;
 
-        public VmInstruction Instruction { get; } = VmInstruction.Command;
+        public VmInstructionType InstructionType { get; } = VmInstructionType.Command;
         public VmCommandType CommandType { get; }
     }
 }

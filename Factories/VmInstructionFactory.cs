@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using VMToHackASM.Models;
-using VMToHackASM.Utilities;
 
 namespace VMToHackASM.Factories
 {
@@ -10,36 +9,28 @@ namespace VMToHackASM.Factories
         /// <summary>
         /// Creates a collection of VMInstructions from the string collection given.
         /// </summary>
-        /// <param name="vmOperations"></param>
+        /// <param name="instructionHelpers"></param>
         /// <returns></returns>
-        public static IEnumerable<IVmInstruction> CreateCollection(IEnumerable<string[]> vmOperations)
+        public static IEnumerable<IVmInstruction> CreateCollection(IEnumerable<IVmInstructionHelper> instructionHelpers)
         {
-            var vmOperationInstances = new List<IVmInstruction>();
+            var instructionInstances = new List<IVmInstruction>();
 
-            foreach (var vmOperation in vmOperations)
+            foreach (var instructionHelper in instructionHelpers)
             {
-                string vmInstructionType = vmOperation[0];
-                IVmInstruction vmOperationInstance;
+                var vmInstructionType = instructionHelper.InstructionType;
+                var instructionSplit = instructionHelper.InstructionSplit;
 
-                if (vmOperation.Length > 1)
+                instructionInstances.Add(vmInstructionType switch
                 {
-                    var operationType = EnumUtils.StringToEnum<VmOperationType>(vmInstructionType);
-                    string segmentString = vmOperation[1];
-                    short value = short.Parse(vmOperation[2]);
-                    var segment = EnumUtils.StringToEnum<VmSegment>(segmentString);
-
-                    vmOperationInstance = new VmOperation(operationType, segment, value);
-                }
-                else
-                {
-                    var commandType = EnumUtils.StringToEnum<VmCommandType>(vmInstructionType);
-                    vmOperationInstance = new VmCommand(commandType);
-                }
-
-                vmOperationInstances.Add(vmOperationInstance);
+                    VmInstructionType.Operation => VmOperationFactory.Create(instructionSplit),
+                    VmInstructionType.Command => VmCommandFactory.Create(instructionSplit),
+                    VmInstructionType.Call => VmCallFactory.Create(instructionSplit),
+                    VmInstructionType.Statement => VmStatementFactory.Create(instructionSplit),
+                    _ => throw new Exception("No such type.")
+                });
             }
 
-            return vmOperationInstances;
+            return instructionInstances;
         }
     }
 }

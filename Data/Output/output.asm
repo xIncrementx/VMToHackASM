@@ -1,21 +1,5 @@
 // Push 
-@111
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@333
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@888
+@0
 D=A
 @SP
 A=M
@@ -23,25 +7,23 @@ M=D
 @SP
 M=M+1
 // Pop 
-@SP
-AM=M-1
-D=M
-@output.asm.8
+@0
+D=A
+@LCL
+D=D+M
+@R15
 M=D
-// Pop 
 @SP
 AM=M-1
 D=M
-@output.asm.3
-M=D
-// Pop 
-@SP
-AM=M-1
-D=M
-@output.asm.1
+@R15
+A=M
 M=D
 // Push 
-@output.asm.3
+@0
+D=A
+@ARG
+A=M+D
 D=M
 @SP
 A=M
@@ -49,19 +31,10 @@ M=D
 @SP
 M=M+1
 // Push 
-@output.asm.1
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-AM=M-1
-D=M
-A=A-1
-M=M-D
-// Push 
-@output.asm.8
+@0
+D=A
+@LCL
+A=M+D
 D=M
 @SP
 A=M
@@ -72,3 +45,74 @@ AM=M-1
 D=M
 A=A-1
 M=M+D
+// Pop 
+@0
+D=A
+@LCL
+D=D+M
+@R15
+M=D
+@SP
+AM=M-1
+D=M
+@R15
+A=M
+M=D
+// Push 
+@0
+D=A
+@ARG
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// Push 
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+AM=M-1
+D=M
+A=A-1
+M=M-D
+// Pop 
+@0
+D=A
+@ARG
+D=D+M
+@R15
+M=D
+@SP
+AM=M-1
+D=M
+@R15
+A=M
+M=D
+// Push 
+@0
+D=A
+@ARG
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// Push 
+@0
+D=A
+@LCL
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1

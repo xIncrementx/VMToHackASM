@@ -2,6 +2,6 @@
 {
     public interface IVmInstruction
     {
-        public VmInstruction Instruction { get; }
+        public VmInstructionType InstructionType { get; }
     }
 }
