@@ -46,8 +46,12 @@ namespace VMToHackASM.Managers
                         this.commandParser.StackPointerFocused = false;
                         break;
                     case InstructionType.Call:
+                        var call = (ICall) instruction;
+                        
                         break;
                     case InstructionType.Statement:
+                        var statement = (IStatement) instruction;
+                        
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(instruction.ToString(), "Instruction does not exist.");
