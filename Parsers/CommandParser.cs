@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using VMToHackASM.Models;
 
-namespace VMToHackASM.Managers
+namespace VMToHackASM.Parsers
 {
-    public class CommandManager : ICommandManager
+    public class CommandParser : ICommandParser
     {
         private readonly string filename;
         private short counter;
 
-        public CommandManager(string filename) => this.filename = filename;
+        public CommandParser(string filename) => this.filename = filename;
 
         public IEnumerable<string> GetCommands(VmCommandType commandType)
         {

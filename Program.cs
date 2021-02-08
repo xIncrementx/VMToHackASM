@@ -18,9 +18,9 @@ namespace VMToHackASM
             string vmTestFile = DesktopPath + TestPath + "StackTest.vm";
             string outputFilePath = DesktopPath + TestPath + outputFilename + OutputFileExtension;
             
-            IOperationManager operationManager = new OperationManager(outputFilename);
-            ICommandManager commandManager = new CommandManager(outputFilename);
-            var vmParser = new VmParser(operationManager, commandManager);
+            IOperationParser operationParser = new OperationParser(outputFilename);
+            ICommandParser commandParser = new CommandParser(outputFilename);
+            var vmParser = new VmParserManager(operationParser, commandParser);
             var fileReader = new VmFileReader(vmTestFile);
 
             try

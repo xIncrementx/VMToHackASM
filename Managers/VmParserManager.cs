@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using VMToHackASM.Managers;
 using VMToHackASM.Models;
+using VMToHackASM.Parsers;
 
-namespace VMToHackASM.Parsers
+namespace VMToHackASM.Managers
 {
-    public class VmParser
+    public class VmParserManager
     {
-        private readonly IOperationManager operationManager;
-        private readonly ICommandManager commandManager;
+        private readonly IOperationParser operationParser;
+        private readonly ICommandParser commandParser;
 
-        public VmParser(IOperationManager operationManager, ICommandManager commandManager)
+        public VmParserManager(IOperationParser operationParser, ICommandParser commandParser)
         {
-            this.operationManager = operationManager;
-            this.commandManager = commandManager;
+            this.operationParser = operationParser;
+            this.commandParser = commandParser;
         }
 
         public IEnumerable<string> ToHackAsm(IEnumerable<IVmInstruction> vmInstructions)
         {
-            var asmCommands = new List<string>(100);
+            var asmOperations = new List<string>(100);
 
             foreach (var vmInstruction in vmInstructions)
             {
@@ -30,27 +30,27 @@ namespace VMToHackASM.Parsers
                         var segment = operation.VmSegment;
                         short value = operation.Value;
 
-                        asmCommands.AddRange(operationType switch
+                        asmOperations.AddRange(operationType switch
                         {
-                            VmOperationType.Push => this.operationManager.Push(segment, value),
-                            VmOperationType.Pop => this.operationManager.Pop(segment, value),
+                            VmOperationType.Push => this.operationParser.GetPushOperation(segment, value),
+                            VmOperationType.Pop => this.operationParser.GetPopOperation(segment, value),
                             _ => throw new Exception("Operation does not exist.")
                         });
-                        this.commandManager.StackPointerFocused = true;
+                        this.commandParser.StackPointerFocused = true;
                         break;
                     case VmInstruction.Command:
                         var command = (IVmCommand) vmInstruction;
                         var commandType = command.CommandType;
 
-                        asmCommands.AddRange(this.commandManager.GetCommands(commandType));
-                        this.commandManager.StackPointerFocused = false;
+                        asmOperations.AddRange(this.commandParser.GetCommands(commandType));
+                        this.commandParser.StackPointerFocused = false;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
 
-            return asmCommands;
+            return asmOperations;
         }
     }
 }

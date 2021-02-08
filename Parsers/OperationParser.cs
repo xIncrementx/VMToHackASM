@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using VMToHackASM.Models;
 
-namespace VMToHackASM.Managers
+namespace VMToHackASM.Parsers
 {
-    public class OperationManager : IOperationManager
+    public class OperationParser : IOperationParser
     {
         private readonly string fileName;
 
-        public OperationManager(string fileName) => this.fileName = fileName;
+        public OperationParser(string fileName) => this.fileName = fileName;
 
-        public IEnumerable<string> Push(VmSegment vmSegment, short value)
+        public IEnumerable<string> GetPushOperation(VmSegment vmSegment, short value)
         {
             var asmCommands = new List<string> {"// Push "};
 
@@ -32,7 +32,7 @@ namespace VMToHackASM.Managers
             return asmCommands;
         }
 
-        public IEnumerable<string> Pop(VmSegment vmSegment, short value)
+        public IEnumerable<string> GetPopOperation(VmSegment vmSegment, short value)
         {
             var asmCommands = new List<string>() {"// Pop "};
 
@@ -45,7 +45,8 @@ namespace VMToHackASM.Managers
                 VmSegment.Static => new[] {"@SP", "AM=M-1", "D=M", $"@{this.fileName}.{value}", "M=D"},
                 VmSegment.Pointer => new[] {"@SP", "AM=M-1", "D=M", $"@{(value == 0 ? "THIS" : "THAT")}", "M=D"},
                 VmSegment.Temp => new[] {"@SP", "AM=M-1", "D=M", $"@temp.{value}", "M=D"},
-                _ => throw new Exception("Invalid segment.")
+                _ => throw new ArgumentOutOfRangeException(nameof(vmSegment),
+                    $"{VmSegment.Constant} not applicable for pop operations")
             });
 
             return asmCommands;
