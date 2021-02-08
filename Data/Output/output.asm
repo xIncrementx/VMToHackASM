@@ -1,3 +1,4 @@
+// Push 
 @17
 D=A
 @SP
@@ -5,6 +6,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @17
 D=A
 @SP
@@ -12,24 +14,22 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
+A=A-1
+D=M-D
+@output.asm.0
+D;JEQ
+D=0
+@output.asm.1
+0;JMP
+(output.asm.0)
+D=-1
+(output.asm.1)
 @SP
 A=M-1
-A=A-1
-D=M
-A=A+1
-D=D-M
-@File.0
-D;JEQ
-@File.1
-D=0
-0;JMP
-(File.0)
-D=-1
-(File.1)
-@SP
-AM=M-1
-A=A-1
 M=D
+// Push 
 @17
 D=A
 @SP
@@ -37,6 +37,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @16
 D=A
 @SP
@@ -44,24 +45,22 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
+A=A-1
+D=M-D
+@output.asm.2
+D;JEQ
+D=0
+@output.asm.3
+0;JMP
+(output.asm.2)
+D=-1
+(output.asm.3)
 @SP
 A=M-1
-A=A-1
-D=M
-A=A+1
-D=D-M
-@File.2
-D;JEQ
-@File.3
-D=0
-0;JMP
-(File.2)
-D=-1
-(File.3)
-@SP
-AM=M-1
-A=A-1
 M=D
+// Push 
 @16
 D=A
 @SP
@@ -69,6 +68,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @17
 D=A
 @SP
@@ -76,24 +76,22 @@ A=M
 M=D
 @SP
 M=M+1
-@SP
-A=M-1
-A=A-1
+AM=M-1
 D=M
-A=A+1
-D=D-M
-@File.4
+A=A-1
+D=M-D
+@output.asm.4
 D;JEQ
-@File.5
 D=0
+@output.asm.5
 0;JMP
-(File.4)
+(output.asm.4)
 D=-1
-(File.5)
+(output.asm.5)
 @SP
-AM=M-1
-A=A-1
+A=M-1
 M=D
+// Push 
 @892
 D=A
 @SP
@@ -101,6 +99,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @891
 D=A
 @SP
@@ -108,24 +107,22 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
+A=A-1
+D=M-D
+@output.asm.6
+D;JLT
+D=0
+@output.asm.7
+0;JMP
+(output.asm.6)
+D=-1
+(output.asm.7)
 @SP
 A=M-1
-A=A-1
-D=M
-A=A+1
-D=D-M
-@File.6
-D;JLT
-@File.7
-D=0
-0;JMP
-(File.6)
-D=-1
-(File.7)
-@SP
-AM=M-1
-A=A-1
 M=D
+// Push 
 @891
 D=A
 @SP
@@ -133,6 +130,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @892
 D=A
 @SP
@@ -140,24 +138,22 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
+A=A-1
+D=M-D
+@output.asm.8
+D;JLT
+D=0
+@output.asm.9
+0;JMP
+(output.asm.8)
+D=-1
+(output.asm.9)
 @SP
 A=M-1
-A=A-1
-D=M
-A=A+1
-D=D-M
-@File.8
-D;JLT
-@File.9
-D=0
-0;JMP
-(File.8)
-D=-1
-(File.9)
-@SP
-AM=M-1
-A=A-1
 M=D
+// Push 
 @891
 D=A
 @SP
@@ -165,6 +161,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @891
 D=A
 @SP
@@ -172,24 +169,22 @@ A=M
 M=D
 @SP
 M=M+1
-@SP
-A=M-1
-A=A-1
+AM=M-1
 D=M
-A=A+1
-D=D-M
-@File.10
+A=A-1
+D=M-D
+@output.asm.10
 D;JLT
-@File.11
 D=0
+@output.asm.11
 0;JMP
-(File.10)
+(output.asm.10)
 D=-1
-(File.11)
+(output.asm.11)
 @SP
-AM=M-1
-A=A-1
+A=M-1
 M=D
+// Push 
 @32767
 D=A
 @SP
@@ -197,6 +192,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @32766
 D=A
 @SP
@@ -204,24 +200,22 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
+A=A-1
+D=M-D
+@output.asm.12
+D;JGT
+D=0
+@output.asm.13
+0;JMP
+(output.asm.12)
+D=-1
+(output.asm.13)
 @SP
 A=M-1
-A=A-1
-D=M
-A=A+1
-D=D-M
-@File.12
-D;JGT
-@File.13
-D=0
-0;JMP
-(File.12)
-D=-1
-(File.13)
-@SP
-AM=M-1
-A=A-1
 M=D
+// Push 
 @32766
 D=A
 @SP
@@ -229,6 +223,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @32767
 D=A
 @SP
@@ -236,24 +231,22 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
+A=A-1
+D=M-D
+@output.asm.14
+D;JGT
+D=0
+@output.asm.15
+0;JMP
+(output.asm.14)
+D=-1
+(output.asm.15)
 @SP
 A=M-1
-A=A-1
-D=M
-A=A+1
-D=D-M
-@File.14
-D;JGT
-@File.15
-D=0
-0;JMP
-(File.14)
-D=-1
-(File.15)
-@SP
-AM=M-1
-A=A-1
 M=D
+// Push 
 @32766
 D=A
 @SP
@@ -261,6 +254,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @32766
 D=A
 @SP
@@ -268,24 +262,22 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
+A=A-1
+D=M-D
+@output.asm.16
+D;JGT
+D=0
+@output.asm.17
+0;JMP
+(output.asm.16)
+D=-1
+(output.asm.17)
 @SP
 A=M-1
-A=A-1
-D=M
-A=A+1
-D=D-M
-@File.16
-D;JGT
-@File.17
-D=0
-0;JMP
-(File.16)
-D=-1
-(File.17)
-@SP
-AM=M-1
-A=A-1
 M=D
+// Push 
 @57
 D=A
 @SP
@@ -293,6 +285,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @31
 D=A
 @SP
@@ -300,6 +293,7 @@ A=M
 M=D
 @SP
 M=M+1
+// Push 
 @53
 D=A
 @SP
@@ -307,11 +301,11 @@ A=M
 M=D
 @SP
 M=M+1
-@SP
 AM=M-1
 D=M
 A=A-1
 M=M+D
+// Push 
 @112
 D=A
 @SP
@@ -319,7 +313,6 @@ A=M
 M=D
 @SP
 M=M+1
-@SP
 AM=M-1
 D=M
 A=A-1
@@ -327,3 +320,5 @@ M=M-D
 @SP
 AM=M-1
 M=-M
+@SP
+AM=M+1

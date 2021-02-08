@@ -20,6 +20,11 @@ namespace VMToHackASM.IO
             };
         }
 
+        /// <summary>
+        /// Gets a clean and trimmed version of the .asm file.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidVmCommandException"></exception>
         public IEnumerable<string[]> GetAll()
         {
             var vmFile = new List<string[]>();
