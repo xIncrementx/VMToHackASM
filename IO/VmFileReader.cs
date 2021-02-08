@@ -6,13 +6,13 @@ namespace VMToHackASM.IO
 {
     public class VmFileReader
     {
-        private readonly IEnumerable<string> vmInstructions;
+        private readonly IEnumerable<string> vmInstructionStrings;
         private readonly string path;
 
-        public VmFileReader(string path, IEnumerable<string> vmInstructions)
+        public VmFileReader(string path, IEnumerable<string> vmInstructionStrings)
         {
             this.path = path;
-            this.vmInstructions = vmInstructions;
+            this.vmInstructionStrings = vmInstructionStrings;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace VMToHackASM.IO
 
         private bool IsValidInstruction(string text)
         {
-            foreach (string s in this.vmInstructions)
+            foreach (string s in this.vmInstructionStrings)
             {
                 bool validCommand = text.Contains(s);
 
