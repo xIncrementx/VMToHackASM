@@ -10,21 +10,21 @@ namespace VMToHackASM.Parsers
 
         public OperationParser(string fileName) => this.fileName = fileName;
 
-        public IEnumerable<string> GetPushOperation(VmSegment vmSegment, short value)
+        public IEnumerable<string> GetPushOperation(Segment segment, short value)
         {
             var asmCommands = new List<string> {"// Push "};
 
-            asmCommands.AddRange(vmSegment switch
+            asmCommands.AddRange(segment switch
             {
-                VmSegment.Constant => new[] {$"@{value}", "D=A", "@SP", "A=M", "M=D"},
-                VmSegment.Local => GetPushOperation("LCL", value),
-                VmSegment.Argument => GetPushOperation("ARG", value),
-                VmSegment.This => GetPushOperation("THIS", value),
-                VmSegment.That => GetPushOperation("THAT", value),
-                VmSegment.Temp => GetPushOperation("temp", value),
-                VmSegment.Static => new[] {$"@{this.fileName}.{value}", "D=M", "@SP", "A=M", "M=D"},
-                VmSegment.Pointer => new[] {$"@{(value == 0 ? "THIS" : "THAT")}", "D=M", "@SP", "A=M", "M=D"},
-                _ => throw new ArgumentOutOfRangeException(nameof(vmSegment), "Invalid segment.")
+                Segment.Constant => new[] {$"@{value}", "D=A", "@SP", "A=M", "M=D"},
+                Segment.Local => GetPushOperation("LCL", value),
+                Segment.Argument => GetPushOperation("ARG", value),
+                Segment.This => GetPushOperation("THIS", value),
+                Segment.That => GetPushOperation("THAT", value),
+                Segment.Temp => GetPushOperation("temp", value),
+                Segment.Static => new[] {$"@{this.fileName}.{value}", "D=M", "@SP", "A=M", "M=D"},
+                Segment.Pointer => new[] {$"@{(value == 0 ? "THIS" : "THAT")}", "D=M", "@SP", "A=M", "M=D"},
+                _ => throw new ArgumentOutOfRangeException(nameof(segment), "Invalid segment.")
             });
 
             asmCommands.AddRange(GetIncrementStackPointer());
@@ -32,20 +32,20 @@ namespace VMToHackASM.Parsers
             return asmCommands;
         }
 
-        public IEnumerable<string> GetPopOperation(VmSegment vmSegment, short value)
+        public IEnumerable<string> GetPopOperation(Segment segment, short value)
         {
             var asmCommands = new List<string>() {"// Pop "};
 
-            asmCommands.AddRange(vmSegment switch
+            asmCommands.AddRange(segment switch
             {
-                VmSegment.Local => GetPopOperation("LCL", value),
-                VmSegment.Argument => GetPopOperation("ARG", value),
-                VmSegment.This => GetPopOperation("THIS", value),
-                VmSegment.That => GetPopOperation("THAT", value),
-                VmSegment.Static => new[] {"@SP", "AM=M-1", "D=M", $"@{this.fileName}.{value}", "M=D"},
-                VmSegment.Pointer => new[] {"@SP", "AM=M-1", "D=M", $"@{(value == 0 ? "THIS" : "THAT")}", "M=D"},
-                VmSegment.Temp => new[] {"@SP", "AM=M-1", "D=M", $"@temp.{value}", "M=D"},
-                _ => throw new ArgumentOutOfRangeException(nameof(vmSegment),
+                Segment.Local => GetPopOperation("LCL", value),
+                Segment.Argument => GetPopOperation("ARG", value),
+                Segment.This => GetPopOperation("THIS", value),
+                Segment.That => GetPopOperation("THAT", value),
+                Segment.Static => new[] {"@SP", "AM=M-1", "D=M", $"@{this.fileName}.{value}", "M=D"},
+                Segment.Pointer => new[] {"@SP", "AM=M-1", "D=M", $"@{(value == 0 ? "THIS" : "THAT")}", "M=D"},
+                Segment.Temp => new[] {"@SP", "AM=M-1", "D=M", $"@temp.{value}", "M=D"},
+                _ => throw new ArgumentOutOfRangeException(nameof(segment),
                     "Segment not applicable for pop operations")
             });
 

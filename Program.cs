@@ -22,8 +22,8 @@ namespace VMToHackASM
             try
             {
                 var vmOperationStrings = fileReader.GetAll();
-                var vmInstructionHelpers = VmInstructionHelperFactory.CreateCollection(vmOperationStrings);
-                var vmInstructionInstances = VmInstructionFactory.CreateCollection(vmInstructionHelpers);
+                var vmInstructionHelpers = InstructionHelperFactory.CreateCollection(vmOperationStrings);
+                var vmInstructionInstances = InstructionFactory.CreateCollection(vmInstructionHelpers);
                 var asmOperations = vmParser.ToHackAsm(vmInstructionInstances);
                 FileWriter.Write(asmOperations, Paths.OutputFilePath);
             }

@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public enum VmInstructionType
+    public enum InstructionType
     {
         Operation,
         Command,

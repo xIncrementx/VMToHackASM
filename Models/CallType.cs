@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public enum VmCallType
+    public enum CallType
     {
         Return,
         Call,

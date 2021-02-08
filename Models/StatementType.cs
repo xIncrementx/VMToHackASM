@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public enum VmStatementType
+    public enum StatementType
     {
         Label,
         Goto,

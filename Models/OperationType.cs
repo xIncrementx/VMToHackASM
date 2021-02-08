@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public enum VmOperationType
+    public enum OperationType
     {
         Push,
         Pop

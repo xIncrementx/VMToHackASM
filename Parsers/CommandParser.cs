@@ -11,7 +11,7 @@ namespace VMToHackASM.Parsers
 
         public CommandParser(string filename) => this.filename = filename;
 
-        public IEnumerable<string> GetCommands(VmCommandType commandType)
+        public IEnumerable<string> GetCommands(CommandType commandType)
         {
             var asmOperation = new List<string>();
             bool stackPointerNotFocused = !StackPointerFocused;
@@ -21,15 +21,15 @@ namespace VMToHackASM.Parsers
 
             asmOperation.AddRange(commandType switch
             {
-                VmCommandType.Add => GetArithmeticOrLogicalOperation('+'),
-                VmCommandType.Sub => GetArithmeticOrLogicalOperation('-'),
-                VmCommandType.Or => GetArithmeticOrLogicalOperation('|'),
-                VmCommandType.And => GetArithmeticOrLogicalOperation('&'),
-                VmCommandType.Neg => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
-                VmCommandType.Not => new[] {"A=M-1", "M=!M"},
-                VmCommandType.Eq => GetComparisonOperation("EQ"),
-                VmCommandType.Gt => GetComparisonOperation("GT"),
-                VmCommandType.Lt => GetComparisonOperation("LT"),
+                CommandType.Add => GetArithmeticOrLogicalOperation('+'),
+                CommandType.Sub => GetArithmeticOrLogicalOperation('-'),
+                CommandType.Or => GetArithmeticOrLogicalOperation('|'),
+                CommandType.And => GetArithmeticOrLogicalOperation('&'),
+                CommandType.Neg => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
+                CommandType.Not => new[] {"A=M-1", "M=!M"},
+                CommandType.Eq => GetComparisonOperation("EQ"),
+                CommandType.Gt => GetComparisonOperation("GT"),
+                CommandType.Lt => GetComparisonOperation("LT"),
                 _ => throw new Exception("Operator does not exist.")
             });
 

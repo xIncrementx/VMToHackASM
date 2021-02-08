@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public enum VmCommandType
+    public enum CommandType
     {
         Add,
         Sub,

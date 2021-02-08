@@ -5,7 +5,7 @@ namespace VMToHackASM.Parsers
 {
     public interface IOperationParser
     {
-        public IEnumerable<string> GetPushOperation(VmSegment vmSegment, short value);
-        public IEnumerable<string> GetPopOperation(VmSegment vmSegment, short value);
+        public IEnumerable<string> GetPushOperation(Segment segment, short value);
+        public IEnumerable<string> GetPopOperation(Segment segment, short value);
     }
 }

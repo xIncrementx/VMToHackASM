@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public enum VmSegment
+    public enum Segment
     {
         Constant,
         Local,

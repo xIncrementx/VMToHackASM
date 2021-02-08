@@ -6,23 +6,23 @@ namespace VMToHackASM.IO
 {
     public class VmFileReader
     {
-        private readonly IEnumerable<string> vmInstructionStrings;
+        private readonly IEnumerable<string> instructionStrings;
         private readonly string path;
 
-        public VmFileReader(string path, IEnumerable<string> vmInstructionStrings)
+        public VmFileReader(string path, IEnumerable<string> instructionStrings)
         {
             this.path = path;
-            this.vmInstructionStrings = vmInstructionStrings;
+            this.instructionStrings = instructionStrings;
         }
 
         /// <summary>
         /// Gets a clean and trimmed version of the .asm file.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="InvalidVmInstructionException"></exception>
+        /// <exception cref="InvalidInstructionException"></exception>
         public IEnumerable<string[]> GetAll()
         {
-            var vmOperationsSplit = new List<string[]>();
+            var operationsSplit = new List<string[]>();
             var fileReader = new StreamReader(this.path);
             var trimChars = new[] {' ', '\n', '\t'};
 
@@ -35,19 +35,19 @@ namespace VMToHackASM.IO
                 string vmOperation = trimmed.TrimEnd(trimChars);
 
                 bool invalidInstruction = !IsValidInstruction(vmOperation);
-                if (invalidInstruction) throw new InvalidVmInstructionException(vmOperation);
+                if (invalidInstruction) throw new InvalidInstructionException(vmOperation);
 
                 var vmOperationSplit = vmOperation.Split(' ');
 
-                vmOperationsSplit.Add(vmOperationSplit);
+                operationsSplit.Add(vmOperationSplit);
             }
 
-            return vmOperationsSplit;
+            return operationsSplit;
         }
 
         private bool IsValidInstruction(string text)
         {
-            foreach (string s in this.vmInstructionStrings)
+            foreach (string s in this.instructionStrings)
             {
                 bool validCommand = text.Contains(s);
 

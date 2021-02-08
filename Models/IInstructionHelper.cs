@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public interface IVmInstructionHelper : IVmInstruction
+    public interface IInstructionHelper : IInstruction
     {
         string[] InstructionSplit { get; }
     }

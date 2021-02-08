@@ -16,41 +16,41 @@ namespace VMToHackASM.Managers
             this.commandParser = commandParser;
         }
 
-        public IEnumerable<string> ToHackAsm(IEnumerable<IVmInstruction> vmInstructions)
+        public IEnumerable<string> ToHackAsm(IEnumerable<IInstruction> instructions)
         {
             var asmOperations = new List<string>(100);
 
-            foreach (var vmInstruction in vmInstructions)
+            foreach (var instruction in instructions)
             {
-                switch (vmInstruction.InstructionType)
+                switch (instruction.InstructionType)
                 {
-                    case VmInstructionType.Operation:
-                        var operation = (IVmOperation) vmInstruction;
-                        var operationType = operation.VmOperationType;
-                        var segment = operation.VmSegment;
+                    case InstructionType.Operation:
+                        var operation = (IOperation) instruction;
+                        var operationType = operation.OperationType;
+                        var segment = operation.Segment;
                         short value = operation.Value;
 
                         asmOperations.AddRange(operationType switch
                         {
-                            VmOperationType.Push => this.operationParser.GetPushOperation(segment, value),
-                            VmOperationType.Pop => this.operationParser.GetPopOperation(segment, value),
+                            OperationType.Push => this.operationParser.GetPushOperation(segment, value),
+                            OperationType.Pop => this.operationParser.GetPopOperation(segment, value),
                             _ => throw new ArgumentOutOfRangeException(nameof(operationType), "Operation does not exist.")
                         });
                         this.commandParser.StackPointerFocused = true;
                         break;
-                    case VmInstructionType.Command:
-                        var command = (IVmCommand) vmInstruction;
+                    case InstructionType.Command:
+                        var command = (ICommand) instruction;
                         var commandType = command.CommandType;
 
                         asmOperations.AddRange(this.commandParser.GetCommands(commandType));
                         this.commandParser.StackPointerFocused = false;
                         break;
-                    case VmInstructionType.Call:
+                    case InstructionType.Call:
                         break;
-                    case VmInstructionType.Statement:
+                    case InstructionType.Statement:
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(vmInstruction.ToString(), "Instruction does not exist.");
+                        throw new ArgumentOutOfRangeException(instruction.ToString(), "Instruction does not exist.");
                 }
             }
 

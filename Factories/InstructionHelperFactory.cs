@@ -5,33 +5,33 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Factories
 {
-    public static class VmInstructionHelperFactory
+    public static class InstructionHelperFactory
     {
-        public static IEnumerable<IVmInstructionHelper> CreateCollection(IEnumerable<string[]> vmOperations)
+        public static IEnumerable<IInstructionHelper> CreateCollection(IEnumerable<string[]> vmOperations)
         {
-            var vmInstructions = new List<IVmInstructionHelper>();
+            var vmInstructions = new List<IInstructionHelper>();
 
             foreach (var vmOperationSplit in vmOperations)
             {
                 string vmInstruction = vmOperationSplit[0];
                 var instructionType = GetMatchingInstruction(vmInstruction);
 
-                IVmInstructionHelper vmInstructionInstance = new VmInstructionHelper(vmOperationSplit, instructionType);
-                vmInstructions.Add(vmInstructionInstance);
+                IInstructionHelper instructionInstance = new InstructionHelper(vmOperationSplit, instructionType);
+                vmInstructions.Add(instructionInstance);
             }
 
             return vmInstructions;
         }
 
-        private static VmInstructionType GetMatchingInstruction(string vmInstruction)
+        private static InstructionType GetMatchingInstruction(string vmInstruction)
         {
-            VmInstructionType vmInstructionType;
+            InstructionType instructionType;
 
             switch (vmInstruction)
             {
                 case VmInstructions.Push:
                 case VmInstructions.Pop:
-                    vmInstructionType = VmInstructionType.Operation;
+                    instructionType = InstructionType.Operation;
                     break;
                 case VmInstructions.Add:
                 case VmInstructions.Sub:
@@ -42,24 +42,24 @@ namespace VMToHackASM.Factories
                 case VmInstructions.And:
                 case VmInstructions.Or:
                 case VmInstructions.Not:
-                    vmInstructionType = VmInstructionType.Command;
+                    instructionType = InstructionType.Command;
                     break;
                 case VmInstructions.If:
                 case VmInstructions.IfGoto:
                 case VmInstructions.Goto:
                 case VmInstructions.Label:
-                    vmInstructionType = VmInstructionType.Statement;
+                    instructionType = InstructionType.Statement;
                     break;
                 case VmInstructions.Function:
                 case VmInstructions.Call:
                 case VmInstructions.Return:
-                    vmInstructionType = VmInstructionType.Call;
+                    instructionType = InstructionType.Call;
                     break;
                 default:
-                    throw new InvalidVmInstructionException(vmInstruction);
+                    throw new InvalidInstructionException(vmInstruction);
             }
 
-            return vmInstructionType;
+            return instructionType;
         }
     }
 }
