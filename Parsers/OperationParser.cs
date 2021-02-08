@@ -8,7 +8,10 @@ namespace VMToHackASM.Parsers
     {
         private readonly string fileName;
 
-        public OperationParser(string fileName) => this.fileName = fileName;
+        public OperationParser(string fileName)
+        {
+            this.fileName = fileName;
+        }
 
         public IEnumerable<string> GetPushOperation(Segment segment, short value)
         {
@@ -34,7 +37,7 @@ namespace VMToHackASM.Parsers
 
         public IEnumerable<string> GetPopOperation(Segment segment, short value)
         {
-            var asmCommands = new List<string>() {"// Pop "};
+            var asmCommands = new List<string> {"// Pop "};
 
             asmCommands.AddRange(segment switch
             {
@@ -52,12 +55,23 @@ namespace VMToHackASM.Parsers
             return asmCommands;
         }
 
-        private static IEnumerable<string> GetPopOperation(string segment, short value) => new[]
-            {$"@{value}", "D=A", $"@{segment}", "D=D+M", "@R15", "M=D", "@SP", "AM=M-1", "D=M", "@R15", "A=M", "M=D"};
+        private static IEnumerable<string> GetPopOperation(string segment, short value)
+        {
+            return new[]
+            {
+                $"@{value}", "D=A", $"@{segment}", "D=D+M", "@R15", "M=D", "@SP", "AM=M-1", "D=M", "@R15", "A=M", "M=D"
+            };
+        }
 
-        private static IEnumerable<string> GetPushOperation(string segment, short value) => new[]
-            {$"@{value}", "D=A", $"@{segment}", "A=M+D", "D=M", "@SP", "A=M", "M=D"};
+        private static IEnumerable<string> GetPushOperation(string segment, short value)
+        {
+            return new[]
+                {$"@{value}", "D=A", $"@{segment}", "A=M+D", "D=M", "@SP", "A=M", "M=D"};
+        }
 
-        private static IEnumerable<string> GetIncrementStackPointer() => new[] {"@SP", "M=M+1"};
+        private static IEnumerable<string> GetIncrementStackPointer()
+        {
+            return new[] {"@SP", "M=M+1"};
+        }
     }
 }

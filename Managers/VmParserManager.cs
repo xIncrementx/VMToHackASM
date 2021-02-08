@@ -7,8 +7,8 @@ namespace VMToHackASM.Managers
 {
     public class VmParserManager
     {
-        private readonly IOperationParser operationParser;
         private readonly ICommandParser commandParser;
+        private readonly IOperationParser operationParser;
 
         public VmParserManager(IOperationParser operationParser, ICommandParser commandParser)
         {
@@ -21,7 +21,6 @@ namespace VMToHackASM.Managers
             var asmOperations = new List<string>(100);
 
             foreach (var instruction in instructions)
-            {
                 switch (instruction.InstructionType)
                 {
                     case InstructionType.Operation:
@@ -34,7 +33,8 @@ namespace VMToHackASM.Managers
                         {
                             OperationType.Push => this.operationParser.GetPushOperation(segment, value),
                             OperationType.Pop => this.operationParser.GetPopOperation(segment, value),
-                            _ => throw new ArgumentOutOfRangeException(nameof(operationType), "Operation does not exist.")
+                            _ => throw new ArgumentOutOfRangeException(nameof(operationType),
+                                "Operation does not exist.")
                         });
                         this.commandParser.StackPointerFocused = true;
                         break;
@@ -52,7 +52,6 @@ namespace VMToHackASM.Managers
                     default:
                         throw new ArgumentOutOfRangeException(instruction.ToString(), "Instruction does not exist.");
                 }
-            }
 
             return asmOperations;
         }

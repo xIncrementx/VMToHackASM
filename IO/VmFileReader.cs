@@ -16,7 +16,7 @@ namespace VMToHackASM.IO
         }
 
         /// <summary>
-        /// Gets a clean and trimmed version of the .asm file.
+        ///     Gets a clean and trimmed version of the .asm file.
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidInstructionException"></exception>
@@ -51,10 +51,7 @@ namespace VMToHackASM.IO
             {
                 bool validCommand = text.Contains(s);
 
-                if (validCommand)
-                {
-                    return true;
-                }
+                if (validCommand) return true;
             }
 
             return false;

@@ -14,11 +14,11 @@ namespace VMToHackASM
         {
             var vmInstructionStrings = VmInstructions.VmInstructionStrings;
             var fileReader = new VmFileReader(Paths.InputFile, vmInstructionStrings);
-            
+
             IOperationParser operationParser = new OperationParser(Paths.OutputFile);
             ICommandParser commandParser = new CommandParser(Paths.OutputFile);
             var vmParser = new VmParserManager(operationParser, commandParser);
-            
+
             try
             {
                 var vmOperationStrings = fileReader.GetAll();
@@ -30,14 +30,10 @@ namespace VMToHackASM
             catch (Exception e)
             {
                 if (e is DirectoryNotFoundException)
-                {
                     Console.WriteLine($"Directory error: {e.Message}\n" +
-                                      $"Make sure the path is correct and try again.");
-                }
+                                      "Make sure the path is correct and try again.");
                 else
-                {
                     Console.WriteLine(e);
-                }
             }
 
             Console.WriteLine("End");

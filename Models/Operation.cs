@@ -10,7 +10,7 @@
         }
 
         public InstructionType InstructionType { get; } = InstructionType.Operation;
-        public OperationType OperationType  { get; }
+        public OperationType OperationType { get; }
         public Segment Segment { get; }
         public short Value { get; }
     }

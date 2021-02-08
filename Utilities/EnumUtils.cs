@@ -5,7 +5,7 @@ namespace VMToHackASM.Utilities
     public static class EnumUtils
     {
         /// <summary>
-        /// Gets an enumerated type equivalent to the string provided.
+        ///     Gets an enumerated type equivalent to the string provided.
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>

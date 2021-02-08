@@ -1,4 +1,5 @@
 ﻿using VMToHackASM.Models;
+using VMToHackASM.Utilities;
 
 namespace VMToHackASM.Factories
 {
@@ -7,10 +8,10 @@ namespace VMToHackASM.Factories
         public static IInstruction Create(string[] instructionSplit)
         {
             string instructionTypeString = instructionSplit[0];
-            
-            var vmCommandType = Utilities.EnumUtils.StringToEnum<CommandType>(instructionTypeString);
-   
-            return new Command(vmCommandType);
+
+            var commandType = EnumUtils.StringToEnum<CommandType>(instructionTypeString);
+
+            return new Command(commandType);
         }
     }
 }

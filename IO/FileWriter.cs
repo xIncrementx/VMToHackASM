@@ -6,8 +6,8 @@ namespace VMToHackASM.IO
     public static class FileWriter
     {
         /// <summary>
-        /// Writes a file to the given path. The file extension is determined by the path given.<br/>
-        /// Example: C:/Some/Path.ext
+        ///     Writes a file to the given path. The file extension is determined by the path given.<br />
+        ///     Example: C:/Some/Path.ext
         /// </summary>
         /// <param name="file"></param>
         /// <param name="path"></param>
@@ -15,10 +15,7 @@ namespace VMToHackASM.IO
         {
             using var fileWriter = new StreamWriter(path);
 
-            foreach (string line in file)
-            {
-                fileWriter.WriteLine(line);
-            }
+            foreach (string line in file) fileWriter.WriteLine(line);
         }
     }
 }

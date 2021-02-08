@@ -1,12 +1,10 @@
 ﻿namespace VMToHackASM.Models
 {
-    public class Statement : IInstruction
+    public class Statement : IStatement
     {
-        public Statement() 
-        {
-            
-        }
+        public Statement(StatementType statementType) => StatementType = statementType;
 
         public InstructionType InstructionType { get; } = InstructionType.Statement;
+        public StatementType StatementType { get; }
     }
 }

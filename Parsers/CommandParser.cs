@@ -9,7 +9,10 @@ namespace VMToHackASM.Parsers
         private readonly string filename;
         private short counter;
 
-        public CommandParser(string filename) => this.filename = filename;
+        public CommandParser(string filename)
+        {
+            this.filename = filename;
+        }
 
         public IEnumerable<string> GetCommands(CommandType commandType)
         {
@@ -38,8 +41,10 @@ namespace VMToHackASM.Parsers
 
         public bool StackPointerFocused { get; set; }
 
-        private static IEnumerable<string> GetArithmeticOrLogicalOperation(char operatorSign) =>
-            new[] {"AM=M-1", "D=M", "A=A-1", $"M=M{operatorSign}D"};
+        private static IEnumerable<string> GetArithmeticOrLogicalOperation(char operatorSign)
+        {
+            return new[] {"AM=M-1", "D=M", "A=A-1", $"M=M{operatorSign}D"};
+        }
 
         private IEnumerable<string> GetComparisonOperation(string comparisonCommand)
         {
@@ -56,6 +61,9 @@ namespace VMToHackASM.Parsers
             };
         }
 
-        private short GetNextNumber() => this.counter++;
+        private short GetNextNumber()
+        {
+            return this.counter++;
+        }
     }
 }

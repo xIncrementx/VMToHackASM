@@ -22,7 +22,7 @@ namespace VMToHackASM.Constants
         public const string Function = "function";
         public const string Call = "call";
         public const string Return = "return";
-        
+
         public static readonly IEnumerable<string> VmInstructionStrings;
 
         static VmInstructions()

@@ -6,7 +6,6 @@ namespace VMToHackASM.Exceptions
     {
         public InvalidInstructionException(string instruction) : base($"{instruction} is not a valid instruction.")
         {
-            
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿namespace VMToHackASM.Models
 {
-    public class Call : IInstruction
+    public class Call : ICall
     {
-        public Call()
+        public Call(CallType callType)
         {
-            
+            CallType = callType;
         }
 
         public InstructionType InstructionType { get; } = InstructionType.Call;
+        public CallType CallType { get; }
     }
 }

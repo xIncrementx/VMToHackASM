@@ -8,6 +8,6 @@
         private const string Root = "./../../../";
         private const string DataPath = Root + "IO/Data/";
         private const string InputPath = DataPath + "Input/";
-        private const string OutputPath =  DataPath + "Output/";
+        private const string OutputPath = DataPath + "Output/";
     }
 }
