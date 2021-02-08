@@ -6,10 +6,10 @@ namespace VMToHackASM.IO
 {
     public class VmFileReader
     {
-        private readonly IReadOnlyList<string> vmInstructions;
+        private readonly IEnumerable<string> vmInstructions;
         private readonly string path;
 
-        public VmFileReader(string path, IReadOnlyList<string> vmInstructions)
+        public VmFileReader(string path, IEnumerable<string> vmInstructions)
         {
             this.path = path;
             this.vmInstructions = vmInstructions;

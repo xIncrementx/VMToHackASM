@@ -6,10 +6,6 @@ namespace VMToHackASM.Factories
 {
     public static class VmInstructionFactory
     {
-        /// <summary>
-        /// Creates a collection of VMInstructions from the string collection given.
-        /// </summary>
-        /// <param name="instructionHelpers"></param>
         /// <returns></returns>
         public static IEnumerable<IVmInstruction> CreateCollection(IEnumerable<IVmInstructionHelper> instructionHelpers)
         {

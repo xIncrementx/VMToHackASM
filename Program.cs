@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using VMToHackASM.Constants;
 using VMToHackASM.Factories;
 using VMToHackASM.IO;
 using VMToHackASM.Managers;
@@ -10,34 +11,22 @@ namespace VMToHackASM
 {
     class Program
     {
-        private static readonly IReadOnlyList<string> VmInstructions = new List<string>
-        {
-            "push", "pop", "add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not", "label", "if", "if-goto", "goto",
-            "function", "call", "return"
-        };
-        
-        private const string Root = "./../../../";
-        private const string DataPath = Root + "Data/";
-        private const string InputPath = DataPath + "Input/";
-        private const string OutputPath =  DataPath + "Output/";
-        private const string InputFile = InputPath + "Input.vm";
-        private const string OutputFile = "output.asm";
-        private const string OutputFilePath = OutputPath + OutputFile;
-
         private static void Main(string[] args)
         {
-            IOperationParser operationParser = new OperationParser(OutputFile);
-            ICommandParser commandParser = new CommandParser(OutputFile);
+            var vmInstructionStrings = VmInstructions.VmInstructionStrings;
+            var fileReader = new VmFileReader(Paths.InputFile, vmInstructionStrings);
+            
+            IOperationParser operationParser = new OperationParser(Paths.OutputFile);
+            ICommandParser commandParser = new CommandParser(Paths.OutputFile);
             var vmParser = new VmParserManager(operationParser, commandParser);
-            var fileReader = new VmFileReader(InputFile, VmInstructions);
             
             try
             {
-                var vmOperations = fileReader.GetAll();
-                var vmInstructionHelpers = VmInstructionHelperFactory.CreateCollection(vmOperations);
+                var vmOperationStrings = fileReader.GetAll();
+                var vmInstructionHelpers = VmInstructionHelperFactory.CreateCollection(vmOperationStrings);
                 var vmInstructionInstances = VmInstructionFactory.CreateCollection(vmInstructionHelpers);
                 var asmOperations = vmParser.ToHackAsm(vmInstructionInstances);
-                FileWriter.Write(asmOperations, OutputFilePath);
+                FileWriter.Write(asmOperations, Paths.OutputFilePath);
             }
             catch (Exception e)
             {
