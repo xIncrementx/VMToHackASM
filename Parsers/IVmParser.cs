@@ -4,7 +4,7 @@
     {
         ICommandParser CommandParser { get; }
         IOperationParser OperationParser { get; }
-        IStatementParser StatementParser { get; }
-        ICallParser CallParser { get; }
+        ILabelParser LabelParser { get; }
+        IFunctionParser FunctionParser { get; }
     }
 }

@@ -7,7 +7,7 @@
             FunctionType = functionType;
         }
 
-        public InstructionType InstructionType { get; } = InstructionType.Call;
+        public InstructionType InstructionType { get; } = InstructionType.Function;
         public FunctionType FunctionType { get; }
     }
 }

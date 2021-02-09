@@ -9,15 +9,15 @@ namespace VMToHackASM.Managers
     {
         private readonly ICommandParser commandParser;
         private readonly IOperationParser operationParser;
-        private readonly IStatementParser statementParser;
-        private readonly ICallParser callParser;
+        private readonly ILabelParser labelParser;
+        private readonly IFunctionParser functionParser;
 
         public VmParserManager(IVmParser vmParser)
         {
             this.commandParser = vmParser.CommandParser;
             this.operationParser = vmParser.OperationParser;
-            this.statementParser = vmParser.StatementParser;
-            this.callParser = vmParser.CallParser;
+            this.labelParser = vmParser.LabelParser;
+            this.functionParser = vmParser.FunctionParser;
         }
 
         public IEnumerable<string> ToHackAsm(IEnumerable<IInstruction> instructions)
@@ -50,15 +50,15 @@ namespace VMToHackASM.Managers
                         asmOperations.AddRange(commands);
                         this.commandParser.StackPointerFocused = false;
                         break;
-                    case InstructionType.Call:
-                        var call = (IFunction) instruction;
+                    case InstructionType.Function:
+                        var function = (IFunction) instruction;
 
                         break;
                     case InstructionType.Statement:
                         var statement = (ILabel) instruction;
                         var statementType = statement.LabelType;
 
-                        var statements = this.statementParser.GetStatements(statementType);
+                        var statements = this.labelParser.GetStatements(statementType);
                         asmOperations.AddRange(statements);
                         break;
                     default:

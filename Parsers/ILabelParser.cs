@@ -3,7 +3,7 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Parsers
 {
-    public interface IStatementParser
+    public interface ILabelParser
     {
         IEnumerable<string> GetStatements(LabelType labelType);
     }

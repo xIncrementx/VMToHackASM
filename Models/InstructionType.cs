@@ -4,7 +4,7 @@
     {
         Operation,
         Command,
-        Call,
+        Function,
         Statement
     }
 }

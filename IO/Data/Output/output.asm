@@ -19,7 +19,7 @@ D=M
 @R15
 A=M
 M=D
-(Output.asm.)
+(Output.)
 // Push 
 @0
 D=A
@@ -146,22 +146,22 @@ M=M+1
 @SP
 AM=M-1
 D=M
-@Output.asm.8
+@Output.8
 M=D
 // Pop 
 @SP
 AM=M-1
 D=M
-@Output.asm.3
+@Output.3
 M=D
 // Pop 
 @SP
 AM=M-1
 D=M
-@Output.asm.1
+@Output.1
 M=D
 // Push 
-@Output.asm.3
+@Output.3
 D=M
 @SP
 A=M
@@ -169,7 +169,7 @@ M=D
 @SP
 M=M+1
 // Push 
-@Output.asm.1
+@Output.1
 D=M
 @SP
 A=M
@@ -181,7 +181,7 @@ D=M
 A=A-1
 M=M-D
 // Push 
-@Output.asm.8
+@Output.8
 D=M
 @SP
 A=M
@@ -215,20 +215,20 @@ AM=M-1
 D=M
 A=A-1
 D=M-D
-@Output.asm.0
+@Output.0
 D;JLT
 D=0
-@Output.asm.1
+@Output.1
 0;JMP
-(Output.asm.0)
+(Output.0)
 D=-1
-(Output.asm.1)
+(Output.1)
 @SP
 A=M-1
 M=D
 
 
-(Output.asm.)
+(Output.)
 // Push 
 @0
 D=A
@@ -240,7 +240,7 @@ A=M
 M=D
 @SP
 M=M+1
-(Output.asm.)
+(Output.)
 // Push 
 @0
 D=A

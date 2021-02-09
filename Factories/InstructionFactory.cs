@@ -19,7 +19,7 @@ namespace VMToHackASM.Factories
                 {
                     InstructionType.Operation => OperationFactory.Create(instructionSplit),
                     InstructionType.Command => CommandFactory.Create(instructionSplit),
-                    InstructionType.Call => CallFactory.Create(instructionSplit),
+                    InstructionType.Function => CallFactory.Create(instructionSplit),
                     InstructionType.Statement => StatementFactory.Create(instructionSplit),
                     _ => throw new Exception("No such type.")
                 });

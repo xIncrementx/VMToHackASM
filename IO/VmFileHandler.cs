@@ -29,18 +29,18 @@ namespace VMToHackASM.IO
             return allOperationsSplit;
         }
 
-        private static void SortMainFirst(IList<string> array)
+        private static void SortMainFirst(IList<string> filePaths)
         {
-            for (int i = 0; i < array.Count; i++)
+            for (int i = 0; i < filePaths.Count; i++)
             {
-                string fileName = Path.GetFileNameWithoutExtension(array[i]);
+                string fileName = Path.GetFileNameWithoutExtension(filePaths[i]);
                 string fileNameLower = fileName.ToLower();
 
                 if (fileNameLower != "main") continue;
                 
-                string temp = array[0];
-                array[0] = array[i];
-                array[i] = temp;
+                string temp = filePaths[0];
+                filePaths[0] = filePaths[i];
+                filePaths[i] = temp;
                 break;
             }
         }

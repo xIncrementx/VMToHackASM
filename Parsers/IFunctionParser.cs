@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Parsers
 {
-    public class CallParser : ICallParser
+    public interface IFunctionParser
     {
         
     }

@@ -4,11 +4,11 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Parsers
 {
-    public class StatementParser : IStatementParser
+    public class LabelParser : ILabelParser
     {
         private readonly string filename;
 
-        public StatementParser(string filename) => this.filename = filename;
+        public LabelParser(string filename) => this.filename = filename;
 
         public IEnumerable<string> GetStatements(LabelType labelType)
         {
@@ -22,7 +22,7 @@ namespace VMToHackASM.Parsers
                 LabelType.Label => new[] {$"({this.filename}.)"},
                 LabelType.Goto => new[] {""},
                 LabelType.IfGoto => new[] {""},
-                _ => throw new ArgumentException("Statement not recognized.", nameof(labelType))
+                _ => throw new ArgumentException("Label not recognized.", nameof(labelType))
             });
 
             return asmOperation;

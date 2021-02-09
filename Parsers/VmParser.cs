@@ -6,13 +6,13 @@
         {
             CommandParser = new CommandParser(filename);
             OperationParser = new OperationParser(filename);
-            StatementParser = new StatementParser(filename);
-            CallParser = new CallParser();
+            LabelParser = new LabelParser(filename);
+            FunctionParser = new FunctionParser();
         }
 
         public ICommandParser CommandParser { get; }
         public IOperationParser OperationParser { get; }
-        public IStatementParser StatementParser { get; }
-        public ICallParser CallParser { get; }
+        public ILabelParser LabelParser { get; }
+        public IFunctionParser FunctionParser { get; }
     }
 }
