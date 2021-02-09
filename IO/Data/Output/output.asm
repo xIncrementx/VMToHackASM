@@ -19,7 +19,7 @@ D=M
 @R15
 A=M
 M=D
-(Output.)
+(LOOP_START)
 // Push 
 @0
 D=A
@@ -229,7 +229,7 @@ A=M-1
 M=D
 
 
-(Output.)
+(IF_TRUE)
 // Push 
 @0
 D=A
@@ -242,7 +242,7 @@ M=D
 @SP
 M=M+1
 
-(Output.)
+(IF_FALSE)
 // Push 
 @0
 D=A

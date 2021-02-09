@@ -6,14 +6,14 @@ namespace VMToHackASM.Factories
 {
     public static class InstructionFactory
     {
-        public static IEnumerable<IInstruction> CreateCollection(IEnumerable<IInstructionHelper> instructionHelpers)
+        public static IEnumerable<IInstruction> CreateCollection(IEnumerable<IInstructionPrototype> instructionPrototypes)
         {
             var instructionInstances = new List<IInstruction>();
 
-            foreach (var instructionHelper in instructionHelpers)
+            foreach (var instruction in instructionPrototypes)
             {
-                var instructionType = instructionHelper.InstructionType;
-                var instructionSplit = instructionHelper.InstructionSplit;
+                var instructionType = instruction.InstructionType;
+                var instructionSplit = instruction.Instructions;
 
                 instructionInstances.Add(instructionType switch
                 {

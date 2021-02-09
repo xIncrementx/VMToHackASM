@@ -27,19 +27,19 @@ namespace VMToHackASM
                 By convention, main.vm is the first file to be read
             */
             
-            var vmInstructionStrings = VmInstructions.VmInstructionStrings;
-            var vmFileReader = new VmFileReader(vmInstructionStrings);
-            var vmFileManager = new VmFileHandler(vmFileReader);
+            var instructionStrings = VmInstructions.AllInstructions;
+            var fileReader = new VmFileReader(instructionStrings);
+            var fileManager = new VmFileHandler(fileReader);
 
             var vmParserFactory = new VmParserFactory(Paths.OutputFilename);
             var vmParserManager = new VmParserManager(vmParserFactory);
 
             try
             {
-                var allVmInstructions = vmFileManager.GetAll(Paths.InputPath);
-                var vmInstructionHelpers = InstructionHelperFactory.CreateCollection(allVmInstructions);
-                var vmInstructionInstances = InstructionFactory.CreateCollection(vmInstructionHelpers);
-                var asmOperations = vmParserManager.ToHackAsm(vmInstructionInstances);
+                var allInstructions = fileManager.GetAll(Paths.InputPath);
+                var instructionPrototypes = InstructionPrototypeFactory.CreateCollection(allInstructions);
+                var instructionInstances = InstructionFactory.CreateCollection(instructionPrototypes);
+                var asmOperations = vmParserManager.ToHackAsm(instructionInstances);
                 FileWriter.Write(asmOperations, Paths.OutputFilePath);
             }
             catch (Exception e)

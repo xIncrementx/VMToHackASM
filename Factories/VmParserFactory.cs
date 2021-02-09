@@ -1,4 +1,5 @@
-﻿using VMToHackASM.Parsers;
+﻿using VMToHackASM.Managers;
+using VMToHackASM.Parsers;
 
 namespace VMToHackASM.Factories
 {
@@ -17,7 +18,7 @@ namespace VMToHackASM.Factories
         public IFunctionParser CreateFunctionParser(IStackPointerListener stackPointerListener)
             => new FunctionParser(this.filename, stackPointerListener);
 
-        public IStatementLabelParser CreateStatementLabelParser(IStackPointerListener stackPointerListener)
-            => new StatementLabelParser(this.filename);
+        public ILabelParser CreateStatementLabelParser(IStackPointerListener stackPointerListener)
+            => new LabelParser(this.filename);
     }
 }

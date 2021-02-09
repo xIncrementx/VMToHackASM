@@ -1,4 +1,5 @@
-﻿using VMToHackASM.Parsers;
+﻿using VMToHackASM.Managers;
+using VMToHackASM.Parsers;
 
 namespace VMToHackASM.Factories
 {
@@ -6,7 +7,7 @@ namespace VMToHackASM.Factories
     {
         IArithmeticLogicParser CreateArithmeticLogicParser(IStackPointerListener stackPointerListener);
         IFunctionParser CreateFunctionParser(IStackPointerListener stackPointerListener);
-        IStatementLabelParser CreateStatementLabelParser(IStackPointerListener stackPointerListener);
+        ILabelParser CreateStatementLabelParser(IStackPointerListener stackPointerListener);
         IPushPopParser CreatePushPopParser(IStackPointerListener stackPointerListener);
     }
 }

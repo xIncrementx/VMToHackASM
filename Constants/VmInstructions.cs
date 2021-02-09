@@ -22,11 +22,11 @@ namespace VMToHackASM.Constants
         public const string Call = "call";
         public const string Return = "return";
 
-        public static readonly IEnumerable<string> VmInstructionStrings;
+        public static readonly IEnumerable<string> AllInstructions;
 
         static VmInstructions()
         {
-            VmInstructionStrings = new[]
+            AllInstructions = new[]
                 {Push, Pop, Add, Sub, Neg, Eq, Gt, Lt, And, Or, Not, Label, IfGoto, Goto, Function, Call, Return};
         }
     }

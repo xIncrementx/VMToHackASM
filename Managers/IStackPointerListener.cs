@@ -1,4 +1,4 @@
-﻿namespace VMToHackASM.Parsers
+﻿namespace VMToHackASM.Managers
 {
     public interface IStackPointerListener
     {

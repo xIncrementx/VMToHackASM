@@ -8,10 +8,10 @@ namespace VMToHackASM.Factories
         public static IInstruction Create(string[] instructionSplit)
         {
             string instructionTypeString = instructionSplit[0];
-
             var statementType = EnumUtils.StringToEnum<LabelType>(instructionTypeString);
-
-            return new Label(statementType);
+            string labelName = instructionSplit[1];
+            
+            return new LabelOperation(statementType, labelName);
         }
     }
 }

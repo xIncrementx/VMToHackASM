@@ -10,14 +10,14 @@ namespace VMToHackASM.Managers
     {
         private readonly IArithmeticLogicParser arithmeticLogicParser;
         private readonly IPushPopParser pushPopParser;
-        private readonly IStatementLabelParser statementLabelParser;
+        private readonly ILabelParser labelParser;
         private readonly IFunctionParser functionParser;
 
         public VmParserManager(IVmParserFactory vmParserFactory)
         {
             this.arithmeticLogicParser = vmParserFactory.CreateArithmeticLogicParser(this);
             this.pushPopParser = vmParserFactory.CreatePushPopParser(this);
-            this.statementLabelParser = vmParserFactory.CreateStatementLabelParser(this);
+            this.labelParser = vmParserFactory.CreateStatementLabelParser(this);
             this.functionParser = vmParserFactory.CreateFunctionParser(this);
         }
 
@@ -34,11 +34,10 @@ namespace VMToHackASM.Managers
                 asmOperations.AddRange(instructionType switch
                 {
                     InstructionType.PushPop => this.pushPopParser.GetPushPopOperation((IPushPopOperation) instruction),
-                    InstructionType.ArithmeticLogic =>
-                        this.arithmeticLogicParser.GetLogicalOperation((IAlOperation) instruction),
+                    InstructionType.ArithmeticLogic => this.arithmeticLogicParser.GetLogicalOperation(
+                        (IAlOperation) instruction),
                     InstructionType.Function => this.functionParser.GetFunctionOperation((IFunction) instruction),
-                    InstructionType.Statement =>
-                        this.statementLabelParser.GetLabelStatementOperation((ILabel) instruction),
+                    InstructionType.Statement => this.labelParser.GetLabelOperation((ILabelOperation) instruction),
                     _ => throw new ArgumentOutOfRangeException(nameof(instructionType), "Invalid instruction type.")
                 });
             }

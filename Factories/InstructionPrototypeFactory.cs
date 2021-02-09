@@ -5,12 +5,12 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Factories
 {
-    public static class InstructionHelperFactory
+    public static class InstructionPrototypeFactory
     {
 
-        public static IEnumerable<IInstructionHelper> CreateCollection(IEnumerable<IEnumerable<string[]>> allVmOperations)
+        public static IEnumerable<IInstructionPrototype> CreateCollection(IEnumerable<IEnumerable<string[]>> allVmOperations)
         {
-            var instructionHelperCollection = new List<IInstructionHelper>();
+            var instructionHelperCollection = new List<IInstructionPrototype>();
 
             foreach (var vmOperations in allVmOperations)
             {
@@ -21,16 +21,16 @@ namespace VMToHackASM.Factories
             return instructionHelperCollection;
         }
 
-        private static IEnumerable<IInstructionHelper> CreateCollection(IEnumerable<string[]> vmOperations)
+        private static IEnumerable<IInstructionPrototype> CreateCollection(IEnumerable<string[]> vmOperations)
         {
-            var instructionHelpers = new List<IInstructionHelper>();
+            var instructionHelpers = new List<IInstructionPrototype>();
 
             foreach (var vmOperationSplit in vmOperations)
             {
                 string vmInstruction = vmOperationSplit[0];
                 var instructionType = GetMatchingInstruction(vmInstruction);
 
-                IInstructionHelper instructionInstance = new InstructionHelper(vmOperationSplit, instructionType);
+                IInstructionPrototype instructionInstance = new InstructionPrototype(vmOperationSplit, instructionType);
                 instructionHelpers.Add(instructionInstance);
             }
 
