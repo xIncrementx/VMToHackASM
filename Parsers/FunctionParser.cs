@@ -6,8 +6,15 @@ namespace VMToHackASM.Parsers
 {
     public class FunctionParser : IFunctionParser
     {
-        // Maybe ctor?
-        
+        private readonly IStackPointerListener stackPointerListener;
+        private readonly string filename;
+
+        public FunctionParser(string filename, IStackPointerListener stackPointerListener)
+        {
+            this.stackPointerListener = stackPointerListener;
+            this.filename = filename;
+        }
+
         public IEnumerable<string> GetFunctionOperation(IFunction function)
         {
             var asmOperations = new List<string>();

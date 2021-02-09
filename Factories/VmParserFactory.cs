@@ -15,7 +15,7 @@ namespace VMToHackASM.Factories
             => new ArithmeticLogicParser(this.filename, stackPointerListener);
 
         public IFunctionParser CreateFunctionParser(IStackPointerListener stackPointerListener)
-            => new FunctionParser();
+            => new FunctionParser(this.filename, stackPointerListener);
 
         public IStatementLabelParser CreateStatementLabelParser(IStackPointerListener stackPointerListener)
             => new StatementLabelParser(this.filename);
