@@ -9,11 +9,15 @@ namespace VMToHackASM.Managers
     {
         private readonly ICommandParser commandParser;
         private readonly IOperationParser operationParser;
+        private readonly IStatementParser statementParser;
+        private readonly ICallParser callParser;
 
-        public VmParserManager(IOperationParser operationParser, ICommandParser commandParser)
+        public VmParserManager(IVmParser vmParser)
         {
-            this.operationParser = operationParser;
-            this.commandParser = commandParser;
+            this.commandParser = vmParser.CommandParser;
+            this.operationParser = vmParser.OperationParser;
+            this.statementParser = vmParser.StatementParser;
+            this.callParser = vmParser.CallParser;
         }
 
         public IEnumerable<string> ToHackAsm(IEnumerable<IInstruction> instructions)
@@ -42,16 +46,20 @@ namespace VMToHackASM.Managers
                         var command = (ICommand) instruction;
                         var commandType = command.CommandType;
 
-                        asmOperations.AddRange(this.commandParser.GetCommands(commandType));
+                        var commands = this.commandParser.GetCommands(commandType);
+                        asmOperations.AddRange(commands);
                         this.commandParser.StackPointerFocused = false;
                         break;
                     case InstructionType.Call:
-                        var call = (ICall) instruction;
-                        
+                        var call = (IFunction) instruction;
+
                         break;
                     case InstructionType.Statement:
-                        var statement = (IStatement) instruction;
-                        
+                        var statement = (ILabel) instruction;
+                        var statementType = statement.LabelType;
+
+                        var statements = this.statementParser.GetStatements(statementType);
+                        asmOperations.AddRange(statements);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(instruction.ToString(), "Instruction does not exist.");

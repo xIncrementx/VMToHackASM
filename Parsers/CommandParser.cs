@@ -33,7 +33,7 @@ namespace VMToHackASM.Parsers
                 CommandType.Eq => GetComparisonOperation("EQ"),
                 CommandType.Gt => GetComparisonOperation("GT"),
                 CommandType.Lt => GetComparisonOperation("LT"),
-                _ => throw new Exception("Operator does not exist.")
+                _ => throw new ArgumentException("Operator not recognized.", nameof(commandType))
             });
 
             return asmOperation;

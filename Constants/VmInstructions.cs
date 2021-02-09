@@ -16,7 +16,6 @@ namespace VMToHackASM.Constants
         public const string Or = "or";
         public const string Not = "not";
         public const string Label = "label";
-        public const string If = "if";
         public const string IfGoto = "if-goto";
         public const string Goto = "goto";
         public const string Function = "function";
@@ -28,7 +27,7 @@ namespace VMToHackASM.Constants
         static VmInstructions()
         {
             VmInstructionStrings = new[]
-                {Push, Pop, Add, Sub, Neg, Eq, Gt, Lt, And, Or, Not, Label, If, IfGoto, Goto, Function, Call, Return};
+                {Push, Pop, Add, Sub, Neg, Eq, Gt, Lt, And, Or, Not, Label, IfGoto, Goto, Function, Call, Return};
         }
     }
 }

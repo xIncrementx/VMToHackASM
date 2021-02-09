@@ -4,26 +4,21 @@ using VMToHackASM.Exceptions;
 
 namespace VMToHackASM.IO
 {
-    public class VmFileReader
+    public class VmFileReader : IVmFileReader
     {
         private readonly IEnumerable<string> instructionStrings;
-        private readonly string path;
 
-        public VmFileReader(string path, IEnumerable<string> instructionStrings)
-        {
-            this.path = path;
-            this.instructionStrings = instructionStrings;
-        }
+        public VmFileReader(IEnumerable<string> instructionStrings) => this.instructionStrings = instructionStrings;
 
         /// <summary>
         ///     Gets a clean and trimmed version of the .asm file.
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidInstructionException"></exception>
-        public IEnumerable<string[]> GetAll()
+        public IEnumerable<string[]> GetAll(string path)
         {
             var operationsSplit = new List<string[]>();
-            var fileReader = new StreamReader(this.path);
+            var fileReader = new StreamReader(path);
             var trimChars = new[] {' ', '\n', '\t'};
 
             for (string line; (line = fileReader.ReadLine()) != null;)

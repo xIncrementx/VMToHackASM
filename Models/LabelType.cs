@@ -1,10 +1,9 @@
 ﻿namespace VMToHackASM.Models
 {
-    public enum StatementType
+    public enum LabelType
     {
         Label,
         Goto,
-        IfGoto,
-        If
+        IfGoto
     }
 }

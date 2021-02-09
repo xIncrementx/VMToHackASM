@@ -7,9 +7,23 @@ namespace VMToHackASM.Factories
 {
     public static class InstructionHelperFactory
     {
-        public static IEnumerable<IInstructionHelper> CreateCollection(IEnumerable<string[]> vmOperations)
+
+        public static IEnumerable<IInstructionHelper> CreateCollection(IEnumerable<IEnumerable<string[]>> allVmOperations)
         {
-            var vmInstructions = new List<IInstructionHelper>();
+            var instructionHelperCollection = new List<IInstructionHelper>();
+
+            foreach (var vmOperations in allVmOperations)
+            {
+                var instructionHelpers = CreateCollection(vmOperations);
+                instructionHelperCollection.AddRange(instructionHelpers);
+            }
+
+            return instructionHelperCollection;
+        }
+
+        private static IEnumerable<IInstructionHelper> CreateCollection(IEnumerable<string[]> vmOperations)
+        {
+            var instructionHelpers = new List<IInstructionHelper>();
 
             foreach (var vmOperationSplit in vmOperations)
             {
@@ -17,10 +31,10 @@ namespace VMToHackASM.Factories
                 var instructionType = GetMatchingInstruction(vmInstruction);
 
                 IInstructionHelper instructionInstance = new InstructionHelper(vmOperationSplit, instructionType);
-                vmInstructions.Add(instructionInstance);
+                instructionHelpers.Add(instructionInstance);
             }
 
-            return vmInstructions;
+            return instructionHelpers;
         }
 
         private static InstructionType GetMatchingInstruction(string vmInstruction)
@@ -44,7 +58,6 @@ namespace VMToHackASM.Factories
                 case VmInstructions.Not:
                     instructionType = InstructionType.Command;
                     break;
-                case VmInstructions.If:
                 case VmInstructions.IfGoto:
                 case VmInstructions.Goto:
                 case VmInstructions.Label:
