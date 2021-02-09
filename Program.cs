@@ -4,7 +4,6 @@ using VMToHackASM.Constants;
 using VMToHackASM.Factories;
 using VMToHackASM.IO;
 using VMToHackASM.Managers;
-using VMToHackASM.Parsers;
 
 namespace VMToHackASM
 {
@@ -29,11 +28,11 @@ namespace VMToHackASM
             */
             
             var vmInstructionStrings = VmInstructions.VmInstructionStrings;
-            IVmFileReader vmFileReader = new VmFileReader(vmInstructionStrings);
+            var vmFileReader = new VmFileReader(vmInstructionStrings);
             var vmFileManager = new VmFileHandler(vmFileReader);
 
-            IVmParser vmParser = new VmParser(Paths.OutputFilename);
-            var vmParserManager = new VmParserManager(vmParser);
+            var vmParserFactory = new VmParserFactory(Paths.OutputFilename);
+            var vmParserManager = new VmParserManager(vmParserFactory);
 
             try
             {

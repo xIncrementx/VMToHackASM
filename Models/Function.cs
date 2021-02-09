@@ -4,10 +4,10 @@
     {
         public Function(FunctionType functionType)
         {
-            FunctionType = functionType;
+            Type = functionType;
         }
 
         public InstructionType InstructionType { get; } = InstructionType.Function;
-        public FunctionType FunctionType { get; }
+        public FunctionType Type { get; }
     }
 }

@@ -10,12 +10,12 @@ namespace VMToHackASM.Factories
             string instructionTypeString = instructionSplit[0];
             string segmentString = instructionSplit[1];
 
-            var operationType = EnumUtils.StringToEnum<OperationType>(instructionTypeString);
+            var operationType = EnumUtils.StringToEnum<PushPopOperationType>(instructionTypeString);
             var segmentType = EnumUtils.StringToEnum<Segment>(segmentString);
 
             short value = short.Parse(instructionSplit[2]);
 
-            return new Operation(operationType, segmentType, value);
+            return new PushPopOperation(operationType, segmentType, value);
         }
     }
 }

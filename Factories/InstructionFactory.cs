@@ -17,11 +17,11 @@ namespace VMToHackASM.Factories
 
                 instructionInstances.Add(instructionType switch
                 {
-                    InstructionType.Operation => OperationFactory.Create(instructionSplit),
-                    InstructionType.Command => CommandFactory.Create(instructionSplit),
-                    InstructionType.Function => CallFactory.Create(instructionSplit),
+                    InstructionType.PushPop => OperationFactory.Create(instructionSplit),
+                    InstructionType.ArithmeticLogic => CommandFactory.Create(instructionSplit),
+                    InstructionType.Function => FunctionFactory.Create(instructionSplit),
                     InstructionType.Statement => StatementFactory.Create(instructionSplit),
-                    _ => throw new Exception("No such type.")
+                    _ => throw new ArgumentOutOfRangeException(instructionType.ToString(),"No such type.")
                 });
             }
 

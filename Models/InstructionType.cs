@@ -2,8 +2,8 @@
 {
     public enum InstructionType
     {
-        Operation,
-        Command,
+        PushPop,
+        ArithmeticLogic,
         Function,
         Statement
     }

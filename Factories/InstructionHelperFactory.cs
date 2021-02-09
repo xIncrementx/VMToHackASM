@@ -45,7 +45,7 @@ namespace VMToHackASM.Factories
             {
                 case VmInstructions.Push:
                 case VmInstructions.Pop:
-                    instructionType = InstructionType.Operation;
+                    instructionType = InstructionType.PushPop;
                     break;
                 case VmInstructions.Add:
                 case VmInstructions.Sub:
@@ -56,7 +56,7 @@ namespace VMToHackASM.Factories
                 case VmInstructions.And:
                 case VmInstructions.Or:
                 case VmInstructions.Not:
-                    instructionType = InstructionType.Command;
+                    instructionType = InstructionType.ArithmeticLogic;
                     break;
                 case VmInstructions.IfGoto:
                 case VmInstructions.Goto:

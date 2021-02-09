@@ -1,69 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using VMToHackASM.Factories;
 using VMToHackASM.Models;
 using VMToHackASM.Parsers;
 
 namespace VMToHackASM.Managers
 {
-    public class VmParserManager
+    public class VmParserManager : IStackPointerListener
     {
-        private readonly ICommandParser commandParser;
-        private readonly IOperationParser operationParser;
-        private readonly ILabelParser labelParser;
+        private readonly IArithmeticLogicParser arithmeticLogicParser;
+        private readonly IPushPopParser pushPopParser;
+        private readonly IStatementLabelParser statementLabelParser;
         private readonly IFunctionParser functionParser;
 
-        public VmParserManager(IVmParser vmParser)
+        public VmParserManager(IVmParserFactory vmParserFactory)
         {
-            this.commandParser = vmParser.CommandParser;
-            this.operationParser = vmParser.OperationParser;
-            this.labelParser = vmParser.LabelParser;
-            this.functionParser = vmParser.FunctionParser;
+            this.arithmeticLogicParser = vmParserFactory.CreateArithmeticLogicParser(this);
+            this.pushPopParser = vmParserFactory.CreatePushPopParser(this);
+            this.statementLabelParser = vmParserFactory.CreateStatementLabelParser(this);
+            this.functionParser = vmParserFactory.CreateFunctionParser(this);
         }
+
+        public bool StackPointerFocused { get; set; }
 
         public IEnumerable<string> ToHackAsm(IEnumerable<IInstruction> instructions)
         {
             var asmOperations = new List<string>(100);
 
             foreach (var instruction in instructions)
-                switch (instruction.InstructionType)
+            {
+                var instructionType = instruction.InstructionType;
+
+                asmOperations.AddRange(instructionType switch
                 {
-                    case InstructionType.Operation:
-                        var operation = (IOperation) instruction;
-                        var operationType = operation.OperationType;
-                        var segment = operation.Segment;
-                        short value = operation.Value;
-
-                        asmOperations.AddRange(operationType switch
-                        {
-                            OperationType.Push => this.operationParser.GetPushOperation(segment, value),
-                            OperationType.Pop => this.operationParser.GetPopOperation(segment, value),
-                            _ => throw new ArgumentOutOfRangeException(nameof(operationType),
-                                "Operation does not exist.")
-                        });
-                        this.commandParser.StackPointerFocused = true;
-                        break;
-                    case InstructionType.Command:
-                        var command = (ICommand) instruction;
-                        var commandType = command.CommandType;
-
-                        var commands = this.commandParser.GetCommands(commandType);
-                        asmOperations.AddRange(commands);
-                        this.commandParser.StackPointerFocused = false;
-                        break;
-                    case InstructionType.Function:
-                        var function = (IFunction) instruction;
-
-                        break;
-                    case InstructionType.Statement:
-                        var statement = (ILabel) instruction;
-                        var statementType = statement.LabelType;
-
-                        var statements = this.labelParser.GetStatements(statementType);
-                        asmOperations.AddRange(statements);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(instruction.ToString(), "Instruction does not exist.");
-                }
+                    InstructionType.PushPop => this.pushPopParser.GetPushPopOperation((IPushPopOperation) instruction),
+                    InstructionType.ArithmeticLogic =>
+                        this.arithmeticLogicParser.GetLogicalOperation((IAlOperation) instruction),
+                    InstructionType.Function => this.functionParser.GetFunctionOperation((IFunction) instruction),
+                    InstructionType.Statement =>
+                        this.statementLabelParser.GetLabelStatementOperation((ILabel) instruction),
+                    _ => throw new ArgumentOutOfRangeException(nameof(instructionType), "Invalid instruction type.")
+                });
+            }
 
             return asmOperations;
         }

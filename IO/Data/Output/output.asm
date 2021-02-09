@@ -7,10 +7,10 @@ M=D
 @SP
 M=M+1
 // Pop 
-@0
-D=A
 @LCL
-D=D+M
+D=M
+@0
+D=A+M
 @R15
 M=D
 @SP
@@ -47,10 +47,10 @@ D=M
 A=A-1
 M=M+D
 // Pop 
-@0
-D=A
 @LCL
-D=D+M
+D=M
+@0
+D=A+M
 @R15
 M=D
 @SP
@@ -83,10 +83,10 @@ D=M
 A=A-1
 M=M-D
 // Pop 
-@0
-D=A
 @ARG
-D=D+M
+D=M
+@0
+D=A+M
 @R15
 M=D
 @SP
@@ -192,6 +192,7 @@ AM=M-1
 D=M
 A=A-1
 M=M+D
+
 // Push 
 @0
 D=A
@@ -240,6 +241,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 (Output.)
 // Push 
 @0
@@ -264,6 +266,7 @@ AM=M-1
 D=M
 A=A-1
 M=M-D
+
 // Push 
 @0
 D=A
@@ -287,8 +290,10 @@ AM=M-1
 D=M
 A=A-1
 M=M-D
+
 @SP
 AM=M-1
 D=M
 A=A-1
 M=M+D
+

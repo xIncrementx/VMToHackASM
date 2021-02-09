@@ -8,6 +8,7 @@
     <ItemGroup>
       <Compile Remove="Data\AsmOperation.cs" />
       <Compile Remove="Data\ArithmeticOperation.cs" />
+      <Compile Remove="Parsers\IVmParser.cs" />
     </ItemGroup>
 
 </Project>

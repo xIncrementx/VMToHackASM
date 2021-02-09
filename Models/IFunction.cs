@@ -2,6 +2,6 @@
 {
     public interface IFunction : IInstruction
     {
-        public FunctionType FunctionType { get; }
+        public FunctionType Type { get; }
     }
 }

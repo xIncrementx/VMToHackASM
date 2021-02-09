@@ -2,9 +2,9 @@
 {
     public class Label : ILabel
     {
-        public Label(LabelType labelType) => LabelType = labelType;
+        public Label(LabelType labelType) => Type = labelType;
 
         public InstructionType InstructionType { get; } = InstructionType.Statement;
-        public LabelType LabelType { get; }
+        public LabelType Type { get; }
     }
 }

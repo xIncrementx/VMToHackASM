@@ -2,6 +2,6 @@
 {
     public interface ILabel : IInstruction
     {
-        LabelType LabelType { get; }
+        LabelType Type { get; }
     }
 }

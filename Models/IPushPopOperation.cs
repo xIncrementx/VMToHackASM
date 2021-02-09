@@ -1,8 +1,8 @@
 ﻿namespace VMToHackASM.Models
 {
-    public interface IOperation : IInstruction
+    public interface IPushPopOperation : IInstruction
     {
-        public OperationType OperationType { get; }
+        public PushPopOperationType Type { get; }
         public Segment Segment { get; }
         public short Value { get; }
     }
