@@ -28,15 +28,15 @@ namespace VMToHackASM.Parsers
 
             asmOperation.AddRange(alOperationType switch
             {
-                AlOperationType.Add => GetArithmeticOrLogicalOperation('+'),
-                AlOperationType.Sub => GetArithmeticOrLogicalOperation('-'),
-                AlOperationType.Or => GetArithmeticOrLogicalOperation('|'),
-                AlOperationType.And => GetArithmeticOrLogicalOperation('&'),
+                AlOperationType.Add => ArithmeticLogicOperation('+'),
+                AlOperationType.Sub => ArithmeticLogicOperation('-'),
+                AlOperationType.Or => ArithmeticLogicOperation('|'),
+                AlOperationType.And => ArithmeticLogicOperation('&'),
                 AlOperationType.Neg => new[] {"AM=M-1", "M=-M", "@SP", "AM=M+1"},
                 AlOperationType.Not => new[] {"A=M-1", "M=!M"},
-                AlOperationType.Eq => GetComparisonOperation("EQ"),
-                AlOperationType.Gt => GetComparisonOperation("GT"),
-                AlOperationType.Lt => GetComparisonOperation("LT"),
+                AlOperationType.Eq => ComparisonOperation("EQ"),
+                AlOperationType.Gt => ComparisonOperation("GT"),
+                AlOperationType.Lt => ComparisonOperation("LT"),
                 _ => throw new ArgumentException("Operator not recognized.", nameof(alOperationType))
             });
             
@@ -45,24 +45,24 @@ namespace VMToHackASM.Parsers
             return asmOperation;
         }
 
-        private static IEnumerable<string> GetArithmeticOrLogicalOperation(char operatorSign) =>
-            new[] {"AM=M-1", "D=M", "A=A-1", $"M=M{operatorSign}D"};
+        private static IEnumerable<string> ArithmeticLogicOperation(char lOperator) =>
+            new[] {"AM=M-1", "D=M", "A=A-1", $"M=M{lOperator}D"};
 
-        private IEnumerable<string> GetComparisonOperation(string comparisonCommand)
+        private IEnumerable<string> ComparisonOperation(string cOperator)
         {
-            short asmVarNumber1 = GetNextNumber();
-            short asmVarNumber2 = GetNextNumber();
+            short asmVarNumber1 = IncrementCounter();
+            short asmVarNumber2 = IncrementCounter();
 
             return new[]
             {
                 "AM=M-1", "D=M", "A=A-1", "D=M-D",
-                $"@{this.filename}.{asmVarNumber1}", $"D;J{comparisonCommand}", "D=0",
+                $"@{this.filename}.{asmVarNumber1}", $"D;J{cOperator}", "D=0",
                 $"@{this.filename}.{asmVarNumber2}", "0;JMP",
                 $"({this.filename}.{asmVarNumber1})", "D=-1",
                 $"({this.filename}.{asmVarNumber2})", "@SP", "A=M-1", "M=D"
             };
         }
 
-        private short GetNextNumber() => this.counter++;
+        private short IncrementCounter() => this.counter++;
     }
 }

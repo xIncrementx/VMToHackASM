@@ -27,8 +27,8 @@ namespace VMToHackASM.Factories
 
             foreach (var vmOperationSplit in vmOperations)
             {
-                string vmInstruction = vmOperationSplit[0];
-                var instructionType = GetMatchingInstruction(vmInstruction);
+                string instruction = vmOperationSplit[0];
+                var instructionType = InstructionStringToType(instruction);
 
                 IInstructionPrototype instructionInstance = new InstructionPrototype(vmOperationSplit, instructionType);
                 instructionHelpers.Add(instructionInstance);
@@ -37,7 +37,7 @@ namespace VMToHackASM.Factories
             return instructionHelpers;
         }
 
-        private static InstructionType GetMatchingInstruction(string vmInstruction)
+        private static InstructionType InstructionStringToType(string vmInstruction)
         {
             InstructionType type;
 

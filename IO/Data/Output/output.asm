@@ -21,10 +21,10 @@ A=M
 M=D
 (LOOP_START)
 // Push 
-@0
-D=A
 @ARG
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -32,10 +32,10 @@ M=D
 @SP
 M=M+1
 // Push 
-@0
-D=A
 @LCL
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -60,10 +60,10 @@ D=M
 A=M
 M=D
 // Push 
-@0
-D=A
 @ARG
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -96,10 +96,10 @@ D=M
 A=M
 M=D
 // Push 
-@0
-D=A
 @ARG
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -109,10 +109,10 @@ M=M+1
 @LOOP_START
 M;JGT
 // Push 
-@0
-D=A
 @LCL
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -120,10 +120,10 @@ M=D
 @SP
 M=M+1
 // Push 
-@1
-D=A
 @ARG
-A=M+D
+D=M
+@1
+A=A+D
 D=M
 @SP
 A=M
@@ -179,10 +179,10 @@ D=M
 A=M
 M=D
 // Push 
-@0
-D=A
 @ARG
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -216,10 +216,10 @@ A=M
 M=D
 (MAIN_LOOP_START)
 // Push 
-@0
-D=A
 @ARG
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -232,10 +232,10 @@ M;JGT
 0;JMP
 (COMPUTE_ELEMENT)
 // Push 
-@0
-D=A
 @THAT
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M
@@ -243,10 +243,10 @@ M=D
 @SP
 M=M+1
 // Push 
-@1
-D=A
 @THAT
-A=M+D
+D=M
+@1
+A=A+D
 D=M
 @SP
 A=M
@@ -297,10 +297,10 @@ D=M
 @THAT
 M=D
 // Push 
-@0
-D=A
 @ARG
-A=M+D
+D=M
+@0
+A=A+D
 D=M
 @SP
 A=M

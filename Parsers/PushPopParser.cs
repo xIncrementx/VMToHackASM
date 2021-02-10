@@ -24,13 +24,13 @@ namespace VMToHackASM.Parsers
 
             return operationType switch
             {
-                PushPopOperationType.Push => GetPushOperation(segment, value),
-                PushPopOperationType.Pop => GetPopOperation(segment, value),
+                PushPopOperationType.Push => PushOperation(segment, value),
+                PushPopOperationType.Pop => PopOperation(segment, value),
                 _ => throw new ArgumentOutOfRangeException(nameof(operationType), "Not a Push/Pop operation.")
             };
         }
 
-        private IEnumerable<string> GetPushOperation(Segment segment, short value)
+        private IEnumerable<string> PushOperation(Segment segment, short value)
         {
             var asmCommands = new List<string> {"// Push "};
 
@@ -47,13 +47,13 @@ namespace VMToHackASM.Parsers
                 _ => throw new ArgumentOutOfRangeException(nameof(segment), "Invalid segment.")
             });
             asmCommands.AddRange(IncrementStackPointer());
-            
+
             this.stackPointerListener.StackPointerFocused = true;
 
             return asmCommands;
         }
 
-        private IEnumerable<string> GetPopOperation(Segment segment, short value)
+        private IEnumerable<string> PopOperation(Segment segment, short value)
         {
             var asmCommands = new List<string> {"// Pop "};
 
@@ -64,8 +64,8 @@ namespace VMToHackASM.Parsers
                 Segment.This => PopOperation("THIS", value),
                 Segment.That => PopOperation("THAT", value),
                 Segment.Static => new[] {"@SP", "AM=M-1", "D=M", $"@{this.fileName}.{value}", "M=D"},
-                Segment.Pointer => new[] {"@SP","AM=M-1", "D=M", $"@{(value == 0 ? "THIS" : "THAT")}", "M=D"},
-                Segment.Temp => new[] {"@SP","AM=M-1", "D=M", $"@temp.{value}", "M=D"},
+                Segment.Pointer => new[] {"@SP", "AM=M-1", "D=M", $"@{(value == 0 ? "THIS" : "THAT")}", "M=D"},
+                Segment.Temp => new[] {"@SP", "AM=M-1", "D=M", $"@temp.{value}", "M=D"},
                 _ => throw new ArgumentOutOfRangeException(nameof(segment),
                     "Segment not applicable for pop operations")
             });
@@ -76,7 +76,10 @@ namespace VMToHackASM.Parsers
         }
 
         private static IEnumerable<string> PushOperation(string segment, short value) =>
-            new[] {$"@{value}", "D=A", $"@{segment}", "A=M+D", "D=M", "@SP", "A=M", "M=D"};
+            new[] {$"@{segment}", "D=M", $"@{value}", "A=A+D", "D=M", "@SP", "A=M", "M=D"};
+
+        // private static IEnumerable<string> PushOperation(string segment, short value) =>
+        //     new[] {$"@{value}", "D=A", $"@{segment}", "A=M+D", "D=M", "@SP", "A=M", "M=D"};
 
         private static IEnumerable<string> PopOperation(string segment, short value) =>
             new[]
