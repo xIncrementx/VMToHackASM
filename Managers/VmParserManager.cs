@@ -36,7 +36,7 @@ namespace VMToHackASM.Managers
                     InstructionType.PushPop => this.pushPopParser.GetPushPopOperation((IPushPopOperation) instruction),
                     InstructionType.ArithmeticLogic => this.arithmeticLogicParser.GetLogicalOperation(
                         (IAlOperation) instruction),
-                    InstructionType.Function => this.functionParser.GetFunctionOperation((IFunction) instruction),
+                    InstructionType.Function => this.functionParser.GetFunctionOperation((IFunctionOperation) instruction),
                     InstructionType.Statement => this.labelParser.GetLabelOperation((ILabelOperation) instruction),
                     _ => throw new ArgumentOutOfRangeException(nameof(instructionType), "Invalid instruction type.")
                 });

@@ -11,7 +11,7 @@ namespace VMToHackASM.Factories
 
             var functionType = EnumUtils.StringToEnum<FunctionType>(instructionTypeString);
 
-            return new Function(functionType);
+            return new FunctionOperation(functionType);
         }
     }
 }

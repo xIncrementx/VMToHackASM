@@ -1,8 +1,8 @@
 ﻿namespace VMToHackASM.Models
 {
-    public class Function : IFunction
+    public class FunctionOperation : IFunctionOperation
     {
-        public Function(FunctionType functionType)
+        public FunctionOperation(FunctionType functionType)
         {
             Type = functionType;
         }

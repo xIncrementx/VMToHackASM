@@ -16,10 +16,10 @@ namespace VMToHackASM.Parsers
             this.filename = filename;
         }
 
-        public IEnumerable<string> GetFunctionOperation(IFunction function)
+        public IEnumerable<string> GetFunctionOperation(IFunctionOperation functionOperation)
         {
             var asmOperations = new List<string>();
-            var functionType = function.Type;
+            var functionType = functionOperation.Type;
 
             asmOperations.AddRange(functionType switch
             {

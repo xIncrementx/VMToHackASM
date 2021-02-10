@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public interface IFunction : IInstruction
+    public interface IFunctionOperation : IInstruction
     {
         public FunctionType Type { get; }
     }

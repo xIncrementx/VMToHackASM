@@ -3,7 +3,7 @@ using VMToHackASM.Utilities;
 
 namespace VMToHackASM.Factories
 {
-    public static class CommandFactory
+    public static class AlOperationFactory
     {
         public static IInstruction Create(string[] instructionSplit)
         {
