@@ -7,10 +7,11 @@ M=D
 @SP
 M=M+1
 // Pop 
-@LCL
-D=M
 @0
-D=A+M
+D=A
+@LCL
+A=M+D
+D=A
 @R15
 M=D
 @SP
@@ -47,10 +48,11 @@ D=M
 A=A-1
 M=M+D
 // Pop 
-@LCL
-D=M
 @0
-D=A+M
+D=A
+@LCL
+A=M+D
+D=A
 @R15
 M=D
 @SP
@@ -83,10 +85,11 @@ D=M
 A=A-1
 M=M-D
 // Pop 
-@ARG
-D=M
 @0
-D=A+M
+D=A
+@ARG
+A=M+D
+D=A
 @R15
 M=D
 @SP
@@ -107,7 +110,7 @@ M=D
 @SP
 M=M+1
 @LOOP_START
-M;JGT
+D;JGT
 // Push 
 @LCL
 D=M
@@ -119,219 +122,3 @@ A=M
 M=D
 @SP
 M=M+1
-// Push 
-@ARG
-D=M
-@1
-A=A+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Pop 
-@SP
-AM=M-1
-D=M
-@THAT
-M=D
-// Push 
-@0
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Pop 
-@THAT
-D=M
-@0
-D=A+M
-@R15
-M=D
-@SP
-AM=M-1
-D=M
-@R15
-A=M
-M=D
-// Push 
-@1
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Pop 
-@THAT
-D=M
-@1
-D=A+M
-@R15
-M=D
-@SP
-AM=M-1
-D=M
-@R15
-A=M
-M=D
-// Push 
-@ARG
-D=M
-@0
-A=A+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@2
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-AM=M-1
-D=M
-A=A-1
-M=M-D
-// Pop 
-@ARG
-D=M
-@0
-D=A+M
-@R15
-M=D
-@SP
-AM=M-1
-D=M
-@R15
-A=M
-M=D
-(MAIN_LOOP_START)
-// Push 
-@ARG
-D=M
-@0
-A=A+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@COMPUTE_ELEMENT
-M;JGT
-@END_PROGRAM
-0;JMP
-(COMPUTE_ELEMENT)
-// Push 
-@THAT
-D=M
-@0
-A=A+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@THAT
-D=M
-@1
-A=A+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-AM=M-1
-D=M
-A=A-1
-M=M+D
-// Pop 
-@THAT
-D=M
-@2
-D=A+M
-@R15
-M=D
-@SP
-AM=M-1
-D=M
-@R15
-A=M
-M=D
-// Push 
-@THAT
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@1
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-AM=M-1
-D=M
-A=A-1
-M=M+D
-// Pop 
-@SP
-AM=M-1
-D=M
-@THAT
-M=D
-// Push 
-@ARG
-D=M
-@0
-A=A+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@1
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-AM=M-1
-D=M
-A=A-1
-M=M-D
-// Pop 
-@ARG
-D=M
-@0
-D=A+M
-@R15
-M=D
-@SP
-AM=M-1
-D=M
-@R15
-A=M
-M=D
-@MAIN_LOOP_START
-0;JMP
-(END_PROGRAM)

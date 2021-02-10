@@ -81,10 +81,17 @@ namespace VMToHackASM.Parsers
         // private static IEnumerable<string> PushOperation(string segment, short value) =>
         //     new[] {$"@{value}", "D=A", $"@{segment}", "A=M+D", "D=M", "@SP", "A=M", "M=D"};
 
+       //private static IEnumerable<string> PopOperation(string segment, short value) =>
+       //    new[]
+       //    {
+       //        $"@{segment}", "D=M", $"@{value}", "D=A+M", "@R15", "M=D", "@SP", "AM=M-1", "D=M", "@R15", "A=M", "M=D"
+       //    };
+
         private static IEnumerable<string> PopOperation(string segment, short value) =>
             new[]
             {
-                $"@{segment}", "D=M", $"@{value}", "D=A+M", "@R15", "M=D", "@SP", "AM=M-1", "D=M", "@R15", "A=M", "M=D"
+                $"@{value}", "D=A", $"@{segment}", "A=M+D", "D=A", "@R15", "M=D", "@SP", "AM=M-1", "D=M", "@R15", "A=M",
+                "M=D"
             };
 
         private static IEnumerable<string> IncrementStackPointer() => new[] {"@SP", "M=M+1"};
