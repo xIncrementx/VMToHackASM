@@ -6,7 +6,6 @@
 // Computes the sum 1 + 2 + ... + argument[0] and pushes the 
 // result onto the stack. Argument[0] is initialized by the test 
 // script before this code starts running.
-
 push constant 0    
 pop local 0         // initializes sum = 0
 label LOOP_START

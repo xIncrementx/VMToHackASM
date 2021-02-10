@@ -19,8 +19,8 @@ namespace VMToHackASM.Parsers
             asmOperation.AddRange(labelType switch
             {
                 LabelType.Label => new[] {$"({labelName})"},
-                LabelType.Goto => new[] {""},
-                LabelType.IfGoto => new[] {""},
+                LabelType.Goto => new[] {$"@{labelName}","0;JMP"},
+                LabelType.IfGoto => new[] {$"@{labelName}","M;JGT"},
                 _ => throw new ArgumentOutOfRangeException(nameof(labelType), "Label not recognized.")
             });
 

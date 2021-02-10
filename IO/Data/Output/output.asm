@@ -106,7 +106,8 @@ A=M
 M=D
 @SP
 M=M+1
-
+@LOOP_START
+M;JGT
 // Push 
 @0
 D=A
@@ -119,24 +120,11 @@ M=D
 @SP
 M=M+1
 // Push 
-@111
+@1
 D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@333
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@888
-D=A
+@ARG
+A=M+D
+D=M
 @SP
 A=M
 M=D
@@ -146,22 +134,55 @@ M=M+1
 @SP
 AM=M-1
 D=M
-@Output.8
-M=D
-// Pop 
-@SP
-AM=M-1
-D=M
-@Output.3
-M=D
-// Pop 
-@SP
-AM=M-1
-D=M
-@Output.1
+@THAT
 M=D
 // Push 
-@Output.3
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// Pop 
+@THAT
+D=M
+@0
+D=A+M
+@R15
+M=D
+@SP
+AM=M-1
+D=M
+@R15
+A=M
+M=D
+// Push 
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// Pop 
+@THAT
+D=M
+@1
+D=A+M
+@R15
+M=D
+@SP
+AM=M-1
+D=M
+@R15
+A=M
+M=D
+// Push 
+@0
+D=A
+@ARG
+A=M+D
 D=M
 @SP
 A=M
@@ -169,8 +190,8 @@ M=D
 @SP
 M=M+1
 // Push 
-@Output.1
-D=M
+@2
+D=A
 @SP
 A=M
 M=D
@@ -180,8 +201,52 @@ AM=M-1
 D=M
 A=A-1
 M=M-D
+// Pop 
+@ARG
+D=M
+@0
+D=A+M
+@R15
+M=D
+@SP
+AM=M-1
+D=M
+@R15
+A=M
+M=D
+(MAIN_LOOP_START)
 // Push 
-@Output.8
+@0
+D=A
+@ARG
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@COMPUTE_ELEMENT
+M;JGT
+@END_PROGRAM
+0;JMP
+(COMPUTE_ELEMENT)
+// Push 
+@0
+D=A
+@THAT
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// Push 
+@1
+D=A
+@THAT
+A=M+D
 D=M
 @SP
 A=M
@@ -192,12 +257,21 @@ AM=M-1
 D=M
 A=A-1
 M=M+D
-
+// Pop 
+@THAT
+D=M
+@2
+D=A+M
+@R15
+M=D
+@SP
+AM=M-1
+D=M
+@R15
+A=M
+M=D
 // Push 
-@0
-D=A
-@ARG
-A=M+D
+@THAT
 D=M
 @SP
 A=M
@@ -205,7 +279,7 @@ M=D
 @SP
 M=M+1
 // Push 
-@2
+@1
 D=A
 @SP
 A=M
@@ -215,58 +289,13 @@ M=M+1
 AM=M-1
 D=M
 A=A-1
-D=M-D
-@Output.0
-D;JLT
-D=0
-@Output.1
-0;JMP
-(Output.0)
-D=-1
-(Output.1)
+M=M+D
+// Pop 
 @SP
-A=M-1
-M=D
-
-
-(IF_TRUE)
-// Push 
-@0
-D=A
-@ARG
-A=M+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-
-(IF_FALSE)
-// Push 
-@0
-D=A
-@ARG
-A=M+D
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// Push 
-@2
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
 AM=M-1
 D=M
-A=A-1
-M=M-D
-
+@THAT
+M=D
 // Push 
 @0
 D=A
@@ -290,10 +319,19 @@ AM=M-1
 D=M
 A=A-1
 M=M-D
-
+// Pop 
+@ARG
+D=M
+@0
+D=A+M
+@R15
+M=D
 @SP
 AM=M-1
 D=M
-A=A-1
-M=M+D
-
+@R15
+A=M
+M=D
+@MAIN_LOOP_START
+0;JMP
+(END_PROGRAM)
