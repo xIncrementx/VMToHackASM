@@ -2,6 +2,8 @@
 {
     public interface IFunctionOperation : IInstruction
     {
-        public FunctionType Type { get; }
+        public string Name { get; }
+        public short LocalVars { get; }
+        public FunctionType Type { get;}
     }
 }

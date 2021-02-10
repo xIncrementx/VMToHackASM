@@ -2,7 +2,6 @@
 {
     public enum FunctionType
     {
-        Return,
         Call,
         Function
     }

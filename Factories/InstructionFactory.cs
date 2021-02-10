@@ -21,6 +21,7 @@ namespace VMToHackASM.Factories
                     InstructionType.ArithmeticLogic => AlOperationFactory.Create(instructionSplit),
                     InstructionType.Function => FunctionFactory.Create(instructionSplit),
                     InstructionType.Label => LabelFactory.Create(instructionSplit),
+                    InstructionType.Return => new ReturnOperation(),
                     _ => throw new ArgumentOutOfRangeException(instructionType.ToString(),"No such type.")
                 });
             }

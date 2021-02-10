@@ -9,9 +9,9 @@ namespace VMToHackASM.Factories
         {
             string instructionTypeString = instructionSplit[0];
 
-            var commandType = EnumUtils.StringToEnum<AlOperationType>(instructionTypeString);
+            var alOperationType = EnumUtils.StringToEnum<AlOperationType>(instructionTypeString);
 
-            return new AlOperation(commandType);
+            return new AlOperation(alOperationType);
         }
     }
 }

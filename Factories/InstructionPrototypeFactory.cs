@@ -65,8 +65,10 @@ namespace VMToHackASM.Factories
                     break;
                 case VmInstructions.Function:
                 case VmInstructions.Call:
-                case VmInstructions.Return:
                     type = InstructionType.Function;
+                    break;
+                case VmInstructions.Return:
+                    type = InstructionType.Return;
                     break;
                 default:
                     throw new InvalidInstructionException(vmInstruction);

@@ -4,7 +4,8 @@
     {
         PushPop,
         ArithmeticLogic,
+        Label,
         Function,
-        Label
+        Return
     }
 }

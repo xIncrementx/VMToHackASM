@@ -11,7 +11,6 @@ namespace VMToHackASM
     {
         private static void Main(string[] args)
         {
-            // TODO: Create a class that handles multiple vm files from the input folder
             // Sys.init is a function that exists outside of this program, it's one of the initial functions called
             // The first instructions to be called are the following (in the exact order presented):
             // SP = 256 (stack i hosts RAM) 
@@ -31,13 +30,11 @@ namespace VMToHackASM
             var fileReader = new VmFileReader(predefinedInstructions);
             var fileHandler = new VmFileHandler(fileReader);
 
-            const string testPath = "C:/Users/45222/Desktop/test files/FibonacciSeries/";
-            const string filename = "FibonacciSeries.asm";
+            const string testPath = "C:/Users/45222/Desktop/test files/FunctionCalls/StaticsTest/";
+            const string filename = "StaticsTest.asm";
             const string testPathWithFilename = testPath + filename;
             var vmParserFactory = new VmParserFactory(filename);
             var vmParserManager = new VmParserManager(vmParserFactory);
-
-            // TODO: FILE READER CAN READ ALL FILE TYPES, IT SHOULD ONLY BE ABLE TO READ .VM FILES...
 
             try
             {

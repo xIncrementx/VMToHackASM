@@ -20,12 +20,13 @@ namespace VMToHackASM.Parsers
         {
             var asmOperations = new List<string>();
             var functionType = functionOperation.Type;
+            string functionName = functionOperation.Name;
+            short localVars = functionOperation.LocalVars;
 
             asmOperations.AddRange(functionType switch
             {
-                FunctionType.Return => new[] {""},
-                FunctionType.Call => new[] {""},
-                FunctionType.Function => new[] {""},
+                FunctionType.Call => new[] {$"@{functionName}", "0;JMP"},
+                FunctionType.Function => new[] {$"({functionName})"},
                 _ => throw new Exception("Function type does not exist.")
             });
 
