@@ -6,10 +6,6 @@ namespace VMToHackASM.Parsers
 {
     public class LabelParser : IVmParser<ILabelOperation>
     {
-        private readonly string filename;
-
-        public LabelParser(string filename) => this.filename = filename;
-
         public IEnumerable<string> GetAsmOperation(ILabelOperation labelOperation)
         {
             var asmOperation = new List<string>();

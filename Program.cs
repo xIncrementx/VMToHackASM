@@ -38,7 +38,7 @@ namespace VMToHackASM
             var vmParserManager = new VmParserManager(vmParserFactory);
 
             // TODO: FILE READER CAN READ ALL FILE TYPES, IT SHOULD ONLY BE ABLE TO READ .VM FILES...
-            
+
             try
             {
                 var allInstructions = fileHandler.GetAll(Paths.InputPath);
@@ -50,8 +50,8 @@ namespace VMToHackASM
             catch (Exception e)
             {
                 if (e is DirectoryNotFoundException)
-                    Console.WriteLine($"Directory error: {e.Message}\n" +
-                                      "Make sure the path is correct and try again.");
+                    Console.WriteLine(
+                        $"Directory error: {e.Message}\n" + "Make sure the path is correct and try again.");
                 else
                     Console.WriteLine(e);
             }

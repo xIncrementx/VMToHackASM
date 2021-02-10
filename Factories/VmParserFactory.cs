@@ -20,6 +20,6 @@ namespace VMToHackASM.Factories
             => new FunctionParser(this.filename, stackPointerListener);
 
         public IVmParser<ILabelOperation>  CreateStatementLabelParser(IStackPointerListener stackPointerListener)
-            => new LabelParser(this.filename);
+            => new LabelParser();
     }
 }
