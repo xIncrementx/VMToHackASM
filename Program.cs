@@ -29,14 +29,14 @@ namespace VMToHackASM
             
             var predefinedInstructions = VmInstructions.AllInstructions;
             var fileReader = new VmFileReader(predefinedInstructions);
-            var fileManager = new VmFileHandler(fileReader);
+            var fileHandler = new VmFileHandler(fileReader);
 
             var vmParserFactory = new VmParserFactory(Paths.OutputFilename);
             var vmParserManager = new VmParserManager(vmParserFactory);
 
             try
             {
-                var allInstructions = fileManager.GetAll(Paths.InputPath);
+                var allInstructions = fileHandler.GetAll(Paths.InputPath);
                 var instructionPrototypes = InstructionPrototypeFactory.CreateCollection(allInstructions);
                 var instructionInstances = InstructionFactory.CreateCollection(instructionPrototypes);
                 var asmOperations = vmParserManager.ToHackAsm(instructionInstances);

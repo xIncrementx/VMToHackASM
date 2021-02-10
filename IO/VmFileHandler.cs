@@ -22,10 +22,10 @@ namespace VMToHackASM.IO
 
             foreach (string path in filePaths)
             {
-                var operationsSplit =this.vmFileReader.GetAll(path);
+                var operationsSplit = this.vmFileReader.GetAll(path);
                 allOperationsSplit.Add(operationsSplit);
             }
-            
+
             return allOperationsSplit;
         }
 
@@ -37,7 +37,7 @@ namespace VMToHackASM.IO
                 string fileNameLower = fileName.ToLower();
 
                 if (fileNameLower != "main") continue;
-                
+
                 string temp = filePaths[0];
                 filePaths[0] = filePaths[i];
                 filePaths[i] = temp;
