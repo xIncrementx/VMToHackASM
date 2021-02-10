@@ -109,6 +109,8 @@ A=M
 M=D
 @SP
 M=M+1
+AM=M-1
+D=M
 @LOOP_START
 D;JGT
 // Push 

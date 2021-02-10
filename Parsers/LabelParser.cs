@@ -15,12 +15,12 @@ namespace VMToHackASM.Parsers
             var asmOperation = new List<string>();
             var labelType = labelOperation.Type;
             string labelName = labelOperation.LabelName;
-            
+
             asmOperation.AddRange(labelType switch
             {
                 LabelType.Label => new[] {$"({labelName})"},
-                LabelType.Goto => new[] {$"@{labelName}","0;JMP"},
-                LabelType.IfGoto => new[] {$"@{labelName}","D;JGT"},
+                LabelType.Goto => new[] {$"@{labelName}", "0;JMP"},
+                LabelType.IfGoto => new[] {"AM=M-1","D=M", $"@{labelName}", "D;JGT"},
                 _ => throw new ArgumentOutOfRangeException(nameof(labelType), "Label not recognized.")
             });
 

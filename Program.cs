@@ -26,21 +26,26 @@ namespace VMToHackASM
                 All functions in all files are seen by each other and may call each other using the function name 
                 By convention, main.vm is the first file to be read
             */
-            
+
             var predefinedInstructions = VmInstructions.AllInstructions;
             var fileReader = new VmFileReader(predefinedInstructions);
             var fileHandler = new VmFileHandler(fileReader);
 
-            var vmParserFactory = new VmParserFactory(Paths.OutputFilename);
+            const string testPath = "C:/Users/45222/Desktop/test files/FibonacciSeries/";
+            const string filename = "FibonacciSeries.asm";
+            const string testPathWithFilename = testPath + filename;
+            var vmParserFactory = new VmParserFactory(filename);
             var vmParserManager = new VmParserManager(vmParserFactory);
 
+            // TODO: FILE READER CAN READ ALL FILE TYPES, IT SHOULD ONLY BE ABLE TO READ .VM FILES...
+            
             try
             {
                 var allInstructions = fileHandler.GetAll(Paths.InputPath);
                 var instructionPrototypes = InstructionPrototypeFactory.CreateCollection(allInstructions);
                 var instructionInstances = InstructionFactory.CreateCollection(instructionPrototypes);
                 var asmOperations = vmParserManager.ToHackAsm(instructionInstances);
-                FileWriter.Write(asmOperations, Paths.OutputFilePath);
+                FileWriter.Write(asmOperations, testPathWithFilename);
             }
             catch (Exception e)
             {
