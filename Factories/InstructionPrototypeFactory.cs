@@ -39,13 +39,13 @@ namespace VMToHackASM.Factories
 
         private static InstructionType GetMatchingInstruction(string vmInstruction)
         {
-            InstructionType instructionType;
+            InstructionType type;
 
             switch (vmInstruction)
             {
                 case VmInstructions.Push:
                 case VmInstructions.Pop:
-                    instructionType = InstructionType.PushPop;
+                    type = InstructionType.PushPop;
                     break;
                 case VmInstructions.Add:
                 case VmInstructions.Sub:
@@ -56,23 +56,23 @@ namespace VMToHackASM.Factories
                 case VmInstructions.And:
                 case VmInstructions.Or:
                 case VmInstructions.Not:
-                    instructionType = InstructionType.ArithmeticLogic;
+                    type = InstructionType.ArithmeticLogic;
                     break;
                 case VmInstructions.IfGoto:
                 case VmInstructions.Goto:
                 case VmInstructions.Label:
-                    instructionType = InstructionType.Label;
+                    type = InstructionType.Label;
                     break;
                 case VmInstructions.Function:
                 case VmInstructions.Call:
                 case VmInstructions.Return:
-                    instructionType = InstructionType.Function;
+                    type = InstructionType.Function;
                     break;
                 default:
                     throw new InvalidInstructionException(vmInstruction);
             }
 
-            return instructionType;
+            return type;
         }
     }
 }

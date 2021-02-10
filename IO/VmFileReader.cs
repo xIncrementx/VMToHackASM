@@ -8,10 +8,11 @@ namespace VMToHackASM.IO
     {
         private readonly IEnumerable<string> instructionStrings;
 
-        public VmFileReader(IEnumerable<string> instructionStrings) => this.instructionStrings = instructionStrings;
+        public VmFileReader(IEnumerable<string> validInstructions) => this.instructionStrings = validInstructions;
 
         /// <summary>
-        ///     Gets a clean and trimmed version of the .asm file.
+        /// Reads, processes and returns a trimmed .vm file.<br/>
+        /// Each line is split into a string[] containing the separated instructions.
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidInstructionException"></exception>

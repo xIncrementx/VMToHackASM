@@ -27,8 +27,8 @@ namespace VMToHackASM
                 By convention, main.vm is the first file to be read
             */
             
-            var instructionStrings = VmInstructions.AllInstructions;
-            var fileReader = new VmFileReader(instructionStrings);
+            var predefinedInstructions = VmInstructions.AllInstructions;
+            var fileReader = new VmFileReader(predefinedInstructions);
             var fileManager = new VmFileHandler(fileReader);
 
             var vmParserFactory = new VmParserFactory(Paths.OutputFilename);
