@@ -17,10 +17,10 @@ namespace VMToHackASM.IO
         public IEnumerable<IEnumerable<string[]>> GetAll(string directoryPath)
         {
             var allOperationsSplit = new List<IEnumerable<string[]>>();
-            var filePaths = Directory.GetFiles(directoryPath);
-            SortMainFirst(filePaths);
+            var vmFilePaths = Directory.GetFiles(directoryPath, "*.vm");
+            SortMainFirst(vmFilePaths);
 
-            foreach (string path in filePaths)
+            foreach (string path in vmFilePaths)
             {
                 var operationsSplit = this.vmFileReader.GetAll(path);
                 allOperationsSplit.Add(operationsSplit);
