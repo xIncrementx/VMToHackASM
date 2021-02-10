@@ -5,6 +5,6 @@
         PushPop,
         ArithmeticLogic,
         Function,
-        Statement
+        Label
     }
 }

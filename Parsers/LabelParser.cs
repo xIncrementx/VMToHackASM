@@ -4,13 +4,13 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Parsers
 {
-    public class LabelParser : ILabelParser
+    public class LabelParser : IVmParser<ILabelOperation>
     {
         private readonly string filename;
 
         public LabelParser(string filename) => this.filename = filename;
 
-        public IEnumerable<string> GetLabelOperation(ILabelOperation labelOperation)
+        public IEnumerable<string> GetAsmOperation(ILabelOperation labelOperation)
         {
             var asmOperation = new List<string>();
             var labelType = labelOperation.Type;

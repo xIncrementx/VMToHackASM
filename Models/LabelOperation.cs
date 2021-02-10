@@ -8,7 +8,7 @@
             LabelName = labelName;
         }
 
-        public InstructionType InstructionType { get; } = InstructionType.Statement;
+        public InstructionType InstructionType { get; } = InstructionType.Label;
         public LabelType Type { get; }
         public string LabelName { get; }
     }

@@ -20,7 +20,7 @@ namespace VMToHackASM.Factories
                     InstructionType.PushPop => PushPopOperationFactory.Create(instructionSplit),
                     InstructionType.ArithmeticLogic => AlOperationFactory.Create(instructionSplit),
                     InstructionType.Function => FunctionFactory.Create(instructionSplit),
-                    InstructionType.Statement => LabelFactory.Create(instructionSplit),
+                    InstructionType.Label => LabelFactory.Create(instructionSplit),
                     _ => throw new ArgumentOutOfRangeException(instructionType.ToString(),"No such type.")
                 });
             }

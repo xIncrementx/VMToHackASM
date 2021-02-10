@@ -1,13 +1,14 @@
 ﻿using VMToHackASM.Managers;
+using VMToHackASM.Models;
 using VMToHackASM.Parsers;
 
 namespace VMToHackASM.Factories
 {
     public interface IVmParserFactory
     {
-        IArithmeticLogicParser CreateArithmeticLogicParser(IStackPointerListener stackPointerListener);
-        IFunctionParser CreateFunctionParser(IStackPointerListener stackPointerListener);
-        ILabelParser CreateStatementLabelParser(IStackPointerListener stackPointerListener);
-        IPushPopParser CreatePushPopParser(IStackPointerListener stackPointerListener);
+        IVmParser<IAlOperation>  CreateArithmeticLogicParser(IStackPointerListener stackPointerListener);
+        IVmParser<IFunctionOperation>  CreateFunctionParser(IStackPointerListener stackPointerListener);
+        IVmParser<ILabelOperation>  CreateStatementLabelParser(IStackPointerListener stackPointerListener);
+        IVmParser<IPushPopOperation> CreatePushPopParser(IStackPointerListener stackPointerListener);
     }
 }

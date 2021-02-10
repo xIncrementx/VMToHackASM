@@ -5,7 +5,7 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Parsers
 {
-    public class ArithmeticLogicParser : IArithmeticLogicParser
+    public class ArithmeticLogicParser : IVmParser<IAlOperation>
     {
         private readonly IStackPointerListener stackPointerListener;
         private readonly string filename;
@@ -19,7 +19,7 @@ namespace VMToHackASM.Parsers
 
         private bool StackPointerNotFocused => !this.stackPointerListener.StackPointerFocused;
 
-        public IEnumerable<string> GetLogicalOperation(IAlOperation alOperation)
+        public IEnumerable<string> GetAsmOperation(IAlOperation alOperation)
         {
             var asmOperation = new List<string>();
             var alOperationType = alOperation.Type;

@@ -8,17 +8,17 @@ namespace VMToHackASM.Managers
 {
     public class VmParserManager : IStackPointerListener
     {
-        private readonly IArithmeticLogicParser arithmeticLogicParser;
-        private readonly IPushPopParser pushPopParser;
-        private readonly ILabelParser labelParser;
-        private readonly IFunctionParser functionParser;
+        private readonly IVmParser<IAlOperation> alParser;
+        private readonly IVmParser<IPushPopOperation> pushPopParser;
+        private readonly IVmParser<ILabelOperation> labelParser;
+        private readonly IVmParser<IFunctionOperation> funcParser;
 
         public VmParserManager(IVmParserFactory vmParserFactory)
         {
-            this.arithmeticLogicParser = vmParserFactory.CreateArithmeticLogicParser(this);
+            this.alParser = vmParserFactory.CreateArithmeticLogicParser(this);
             this.pushPopParser = vmParserFactory.CreatePushPopParser(this);
             this.labelParser = vmParserFactory.CreateStatementLabelParser(this);
-            this.functionParser = vmParserFactory.CreateFunctionParser(this);
+            this.funcParser = vmParserFactory.CreateFunctionParser(this);
         }
 
         public bool StackPointerFocused { get; set; }
@@ -33,11 +33,10 @@ namespace VMToHackASM.Managers
 
                 asmOperations.AddRange(instructionType switch
                 {
-                    InstructionType.PushPop => this.pushPopParser.GetPushPopOperation((IPushPopOperation) instruction),
-                    InstructionType.ArithmeticLogic => this.arithmeticLogicParser.GetLogicalOperation(
-                        (IAlOperation) instruction),
-                    InstructionType.Function => this.functionParser.GetFunctionOperation((IFunctionOperation) instruction),
-                    InstructionType.Statement => this.labelParser.GetLabelOperation((ILabelOperation) instruction),
+                    InstructionType.PushPop => this.pushPopParser.GetAsmOperation((IPushPopOperation) instruction),
+                    InstructionType.ArithmeticLogic => this.alParser.GetAsmOperation((IAlOperation) instruction),
+                    InstructionType.Function => this.funcParser.GetAsmOperation((IFunctionOperation) instruction),
+                    InstructionType.Label => this.labelParser.GetAsmOperation((ILabelOperation) instruction),
                     _ => throw new ArgumentOutOfRangeException(nameof(instructionType), "Invalid instruction type.")
                 });
             }

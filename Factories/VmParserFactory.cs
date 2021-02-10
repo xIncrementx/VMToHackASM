@@ -1,4 +1,5 @@
 ﻿using VMToHackASM.Managers;
+using VMToHackASM.Models;
 using VMToHackASM.Parsers;
 
 namespace VMToHackASM.Factories
@@ -9,16 +10,16 @@ namespace VMToHackASM.Factories
 
         public VmParserFactory(string filename) => this.filename = filename;
 
-        public IPushPopParser CreatePushPopParser(IStackPointerListener stackPointerListener)
+        public IVmParser<IPushPopOperation> CreatePushPopParser(IStackPointerListener stackPointerListener)
             => new PushPopParser(this.filename, stackPointerListener);
 
-        public IArithmeticLogicParser CreateArithmeticLogicParser(IStackPointerListener stackPointerListener)
+        public IVmParser<IAlOperation>  CreateArithmeticLogicParser(IStackPointerListener stackPointerListener)
             => new ArithmeticLogicParser(this.filename, stackPointerListener);
 
-        public IFunctionParser CreateFunctionParser(IStackPointerListener stackPointerListener)
+        public IVmParser<IFunctionOperation>  CreateFunctionParser(IStackPointerListener stackPointerListener)
             => new FunctionParser(this.filename, stackPointerListener);
 
-        public ILabelParser CreateStatementLabelParser(IStackPointerListener stackPointerListener)
+        public IVmParser<ILabelOperation>  CreateStatementLabelParser(IStackPointerListener stackPointerListener)
             => new LabelParser(this.filename);
     }
 }

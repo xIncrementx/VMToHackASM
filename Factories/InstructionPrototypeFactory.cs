@@ -61,7 +61,7 @@ namespace VMToHackASM.Factories
                 case VmInstructions.IfGoto:
                 case VmInstructions.Goto:
                 case VmInstructions.Label:
-                    instructionType = InstructionType.Statement;
+                    instructionType = InstructionType.Label;
                     break;
                 case VmInstructions.Function:
                 case VmInstructions.Call:

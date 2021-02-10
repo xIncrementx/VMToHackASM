@@ -5,7 +5,7 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Parsers
 {
-    public class PushPopParser : IPushPopParser
+    public class PushPopParser : IVmParser<IPushPopOperation>
     {
         private readonly string fileName;
         private readonly IStackPointerListener stackPointerListener;
@@ -16,7 +16,7 @@ namespace VMToHackASM.Parsers
             this.stackPointerListener = stackPointerListener;
         }
 
-        public IEnumerable<string> GetPushPopOperation(IPushPopOperation pushPopOperation)
+        public IEnumerable<string> GetAsmOperation(IPushPopOperation pushPopOperation)
         {
             var operationType = pushPopOperation.Type;
             var segment = pushPopOperation.Segment;

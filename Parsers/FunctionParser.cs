@@ -5,7 +5,7 @@ using VMToHackASM.Models;
 
 namespace VMToHackASM.Parsers
 {
-    public class FunctionParser : IFunctionParser
+    public class FunctionParser : IVmParser<IFunctionOperation>
     {
         private readonly IStackPointerListener stackPointerListener;
         private readonly string filename;
@@ -16,7 +16,7 @@ namespace VMToHackASM.Parsers
             this.filename = filename;
         }
 
-        public IEnumerable<string> GetFunctionOperation(IFunctionOperation functionOperation)
+        public IEnumerable<string> GetAsmOperation(IFunctionOperation functionOperation)
         {
             var asmOperations = new List<string>();
             var functionType = functionOperation.Type;
