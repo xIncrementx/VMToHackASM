@@ -12,13 +12,15 @@ namespace VMToHackASM.Managers
         private readonly IVmParser<IPushPopOperation> pushPopParser;
         private readonly IVmParser<ILabelOperation> labelParser;
         private readonly IVmParser<IFunctionOperation> funcParser;
+        private readonly IVmParser<IReturnOperation> retParser;
 
         public VmParserManager(IVmParserFactory vmParserFactory)
         {
             this.alParser = vmParserFactory.CreateArithmeticLogicParser(this);
             this.pushPopParser = vmParserFactory.CreatePushPopParser(this);
-            this.labelParser = vmParserFactory.CreateStatementLabelParser(this);
+            this.labelParser = vmParserFactory.CreateLabelParser(this);
             this.funcParser = vmParserFactory.CreateFunctionParser(this);
+            this.retParser = vmParserFactory.CreateReturnParser();
         }
 
         public bool StackPointerFocused { get; set; }
@@ -35,9 +37,9 @@ namespace VMToHackASM.Managers
                 {
                     InstructionType.PushPop => this.pushPopParser.GetAsmOperation((IPushPopOperation) instruction),
                     InstructionType.ArithmeticLogic => this.alParser.GetAsmOperation((IAlOperation) instruction),
-                    InstructionType.Function => this.funcParser.GetAsmOperation((IFunctionOperation) instruction),
                     InstructionType.Label => this.labelParser.GetAsmOperation((ILabelOperation) instruction),
-                    InstructionType.Return => new[] {"aaaaaaaaaaaaaaaaaaaaaaa"},
+                    InstructionType.Function => this.funcParser.GetAsmOperation((IFunctionOperation) instruction),
+                    InstructionType.Return => this.retParser.GetAsmOperation((IReturnOperation) instruction),
                     _ => throw new ArgumentOutOfRangeException(nameof(instructionType), "Invalid instruction type.")
                 });
             }

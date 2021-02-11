@@ -1,6 +1,6 @@
 ﻿namespace VMToHackASM.Models
 {
-    public class ReturnOperation :IInstruction
+    public class ReturnOperation : IReturnOperation
     {
         public InstructionType InstructionType { get; } = InstructionType.Return;
     }

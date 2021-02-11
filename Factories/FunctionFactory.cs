@@ -1,4 +1,5 @@
-﻿using VMToHackASM.Models;
+﻿using System;
+using VMToHackASM.Models;
 using VMToHackASM.Utilities;
 
 namespace VMToHackASM.Factories
@@ -9,10 +10,9 @@ namespace VMToHackASM.Factories
         {
             string instructionTypeString = instructionSplit[0];
             var functionType = EnumUtils.StringToEnum<FunctionType>(instructionTypeString);
-            
+
             string functionName = instructionSplit[1];
             short localVars = short.Parse(instructionSplit[2]);
-
             return new FunctionOperation(functionType, functionName, localVars);
         }
     }

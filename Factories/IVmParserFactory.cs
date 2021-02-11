@@ -8,7 +8,8 @@ namespace VMToHackASM.Factories
     {
         IVmParser<IAlOperation>  CreateArithmeticLogicParser(IStackPointerListener stackPointerListener);
         IVmParser<IFunctionOperation>  CreateFunctionParser(IStackPointerListener stackPointerListener);
-        IVmParser<ILabelOperation>  CreateStatementLabelParser(IStackPointerListener stackPointerListener);
+        IVmParser<ILabelOperation>  CreateLabelParser(IStackPointerListener stackPointerListener);
         IVmParser<IPushPopOperation> CreatePushPopParser(IStackPointerListener stackPointerListener);
+        IVmParser<IReturnOperation> CreateReturnParser();
     }
 }

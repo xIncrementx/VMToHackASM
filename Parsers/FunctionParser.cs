@@ -16,21 +16,33 @@ namespace VMToHackASM.Parsers
             this.filename = filename;
         }
 
+        private string FunctionName { get; set; }
+
         public IEnumerable<string> GetAsmOperation(IFunctionOperation functionOperation)
         {
-            var asmOperations = new List<string>();
             var functionType = functionOperation.Type;
-            string functionName = functionOperation.Name;
+
+            if (functionType == FunctionType.Return) ReturnOperation();
+            
+            FunctionName = functionOperation.Name;
             short localVars = functionOperation.LocalVars;
 
-            asmOperations.AddRange(functionType switch
+            return functionType switch
             {
-                FunctionType.Call => new[] {$"@{functionName}", "0;JMP"},
-                FunctionType.Function => new[] {$"({functionName})"},
+                FunctionType.Call => new[] {$"@{FunctionName}.{localVars}", "0;JMP"},
+                FunctionType.Function => new[] {$"({FunctionName})"},
+                FunctionType.Return => ReturnOperation(),
                 _ => throw new Exception("Function type does not exist.")
-            });
+            };
+        }
 
-            return asmOperations;
+        private IEnumerable<string> ReturnOperation()
+        {
+
+
+            return new[] {$"@{FunctionName}", "0;JMP"};
+
+
         }
     }
 }

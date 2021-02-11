@@ -19,7 +19,9 @@ namespace VMToHackASM.Factories
         public IVmParser<IFunctionOperation>  CreateFunctionParser(IStackPointerListener stackPointerListener)
             => new FunctionParser(this.filename, stackPointerListener);
 
-        public IVmParser<ILabelOperation>  CreateStatementLabelParser(IStackPointerListener stackPointerListener)
+        public IVmParser<ILabelOperation>  CreateLabelParser(IStackPointerListener stackPointerListener)
             => new LabelParser();
+
+        public IVmParser<IReturnOperation> CreateReturnParser() => new ReturnParser();
     }
 }

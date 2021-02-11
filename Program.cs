@@ -31,7 +31,8 @@ namespace VMToHackASM
             var fileHandler = new VmFileHandler(fileReader);
 
             const string testPath = "C:/Users/45222/Desktop/test files/FunctionCalls/StaticsTest/";
-            const string filename = "StaticsTest.asm";
+            const string filename = "StaticsTest";
+            const string fileExtension = ".asm";
             const string testPathWithFilename = testPath + filename;
             var vmParserFactory = new VmParserFactory(filename);
             var vmParserManager = new VmParserManager(vmParserFactory);
@@ -42,7 +43,7 @@ namespace VMToHackASM
                 var instructionPrototypes = InstructionPrototypeFactory.CreateCollection(allInstructions);
                 var instructionInstances = InstructionFactory.CreateCollection(instructionPrototypes);
                 var asmOperations = vmParserManager.ToHackAsm(instructionInstances);
-                FileWriter.Write(asmOperations, testPathWithFilename);
+                FileWriter.Write(asmOperations, testPathWithFilename + fileExtension);
             }
             catch (Exception e)
             {

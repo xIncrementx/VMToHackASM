@@ -3,6 +3,7 @@
     public enum FunctionType
     {
         Call,
-        Function
+        Function,
+        Return
     }
 }
